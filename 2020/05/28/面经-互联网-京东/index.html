@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
+<meta name="description" content="面经一说明：说实话，看到这份面经，还是有点震惊原文链接 一面（视频面）  1小时30分钟1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？ 类加载机制  3、实例化对象的方式有几种？4、由Object类的clone方法引申到深复制和浅复制的区别5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedList">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/LinkedList/index.html">
+<meta property="og:title" content="面经-互联网-京东">
+<meta property="og:url" content="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
-<meta property="article:published_time" content="2020-05-20T08:48:01.000Z">
-<meta property="article:modified_time" content="2020-05-20T08:58:55.156Z">
+<meta property="og:description" content="面经一说明：说实话，看到这份面经，还是有点震惊原文链接 一面（视频面）  1小时30分钟1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？ 类加载机制  3、实例化对象的方式有几种？4、由Object类的clone方法引申到深复制和浅复制的区别5">
+<meta property="article:published_time" content="2020-05-28T12:59:16.000Z">
+<meta property="article:modified_time" content="2020-05-28T16:02:55.995Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/LinkedList/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/28/面经-互联网-京东/"/>
 
 
 
 
 
-  <title>LinkedList | 小蜗学习之旅</title>
+  <title>面经-互联网-京东 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedList</h1>
+          <h1 class="post-title" itemprop="name headline">面经-互联网-京东</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T20:59:16+08:00">
+                2020-05-28
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">-面经 -互联网 -京东</span>
                   </a>
                 </span>
 
@@ -383,63 +383,12 @@
       
 
       
-        <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
+        <h2 id="面经一"><a href="#面经一" class="headerlink" title="面经一"></a>面经一</h2><h3 id="说明：说实话，看到这份面经，还是有点震惊"><a href="#说明：说实话，看到这份面经，还是有点震惊" class="headerlink" title="说明：说实话，看到这份面经，还是有点震惊"></a>说明：说实话，看到这份面经，还是有点震惊</h3><p><a href="https://www.nowcoder.com/discuss/432918" target="_blank" rel="noopener">原文链接</a></p>
+<h3 id="一面（视频面）-1小时30分钟"><a href="#一面（视频面）-1小时30分钟" class="headerlink" title="一面（视频面）  1小时30分钟"></a>一面（视频面）  1小时30分钟</h3><h4 id="1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系"><a href="#1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系" class="headerlink" title="1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系"></a>1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系</h4><h4 id="2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？"><a href="#2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？" class="headerlink" title="2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？"></a>2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/28/JVM-类加载机制/" target="_blank" rel="noopener">类加载机制</a></li>
+</ul>
+<h4 id="3、实例化对象的方式有几种？"><a href="#3、实例化对象的方式有几种？" class="headerlink" title="3、实例化对象的方式有几种？"></a>3、实例化对象的方式有几种？</h4><p>4、由Object类的clone方法引申到深复制和浅复制的区别<br>5、反射的概念、用法、实践<br>6、Java内存模型和JVM内存结构<br>7、有一台4核8G的机器，该给JVM里的堆区和虚拟机栈分配多大的内存？（初始值、最大值、堆区年轻代和老年代的分配比例等等）<br>8、堆内存中的年轻代分配内存过少或过多分别有什么影响？复制算***导致Stop-the-World吗？<br>9、哪些参数可以设置JVM中的内存分配？<br>10、需要在线程范围内去共享一个变量，怎么实现？ThreadLocal源码实现、Key弱引用导致的内存泄露、怎么避免？     （这道题我一直理解成在多个线程之间去共享变量，说了volatile，面试官一直说不对，后来我猜意识到是在线程范围内共享变量….）<br>11、volatile的作用、实现机制、缓存一致性实现<br>12、AtomicInteger原子类的作用、源码实现机制<br>13、CAS无锁算法概念、源码实现机制、Unsafe类源码延伸到HotSpot虚拟机对应的C++方法再延伸对应的汇编函数<br>14、ReentrantLock中非公平锁的源码实现、AQS源码实现、为什么需要自旋锁？锁膨胀的过程？<br>15、线程池的使用场景、常用参数、拒绝策略<br>16、阻塞队列的种类、底层数据结构和使用场景<br>17、手写BIO的Socket编程、BIO和NIO的区别<br>18、Netty线程模型、零拷贝、粘包拆包、心跳机制、Pipeline源码<br>19、责任链模型、策略模式、模板模式、设计模式里的原则<br>20、Top K问题，找到上千万个数字中从大到小的前10个数字<br>21、MySQL中的聚集索引和稀疏索引区别、索引是越多越好吗？什么样的字段适合建索引？<br>22、索引覆盖和回表的概念、怎么避免回表？<br>23、为什么采用B+树而不用AVL树？<br>24、事务的底层实现<br>25、MVCC的概念及实现机制<br>26、Redis为什么这么快？为什么不用多线程？<br>27、哈希表查询的时间复杂度、哈希冲突的解决方法？<br>28、Sorted Set的应用场景、跳表的实现、查询和插入的时间复杂度？<br>29、Dubbo的应用场景、底层通信组件、服务降级、负载均衡、接口暴露、序列化方式、让你实现一个简单的RPC框架你会怎么做？<br>30、Zookeeper的应用场景、watch机制、领导者选举算法、ZK实现分布式锁<br>31、对称加密、非对称加密、数字证书、HTTPS的连接过程、SSL加密一定安全吗？SSL在哪一层实现加密？<br>32、OSI七层协议？路由器工作在那一层？HTTP、TCP、FTP、DNS工作在哪一层？     33、ARP协议的作用及流程     34、Git的操作、代码冲突的解决方法<br>35、Redis的缓存穿透、缓存雪崩、数据一致性的解决方案<br>36、Elasticsearch的倒排索引、index和document的概念、脑裂问题<br>37、RabbitMQ应用场景、生产/消费者和发布/订阅模式概念和应用、数据丢失问题<br>38、商品超卖的解决方法、MySQL乐观锁和Redis乐观锁<br>39、手写SQL：有一个成绩表，表里有三个字段分别是姓名、课程和成绩，求课程平均分大于85分的学生姓名和平均成绩。<br>40、算法：写归并排序和快排、分析时间复杂度、怎么评定是不是一个稳定的排序算法？<br>二面（视频面） 50分钟<br>1、Hashmap和Concurrenthashmap<br>2、线程池核心参数、拒绝策略<br>3、SynchroQueue的应用场景？ 可以存几个元素？<br>4、Lock的公平锁和非公平锁的怎么实现的<br>5、说说AQS<br>6、Lock是怎么给线程分配锁的？<br>7、Spring Bean的生命周期<br>8、说一说Spring的AOP<br>9、SpringBoot启动过程的源码<br>10、怎么学习开源框架<br>11、Netty零拷贝？心跳机制？粘包拆包？<br>12、ASM怎么实现cglib<br>13、说一说数据库有哪些索引？聚簇索引和非聚簇索引区别？什么是索引覆盖和回表？什么是索引下推？<br>14、二叉树和B+树的区别<br>15、了解哪些常用的Linux命令<br>16、Linux根目录下有哪些文件夹<br>17、JVM常用命令<br>18、jstat的常用参数<br>19、进程通信方式<br>20、Linux线程调度方式<br>21、Linux的缓存有几级<br>22、Redis的删除策略？<br>22、什么是分布式？分布式和微服务有什么联系？CAP理论听过吗？为什么CAP理论最多职能满足两个？<br>23、算法：环形链表入口<br>HR面（电话面） 18分钟     没有自我介绍，直入主题。<br>1、你觉得笔试难度怎么样？<br>2、我看你前几轮的综合成绩都蛮高的，未来想在北京发展吗？<br>3、像广州深圳杭州互联网公司都很多，为什么投了北京的岗位呢？<br>4、我可能比较直白一点，你的学历在我们这些候选人里面是比较低的，你觉得你的优势在哪里？<br>5、想过考研吗？不考研的话未来可能几年后你觉得有能力能胜任这些工作吗？<br>6、你觉得为什么自己没有上一些比较好的学校？专业是自己选的吗？<br>7、实习时长？给前两轮面试官一个评价？</p>
 
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
-    }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
-
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
-    }
-}</code></pre>
       
     </div>
     
@@ -463,8 +412,8 @@ Node&lt;E&gt; node(int index) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/ArrayList/" rel="next" title="ArrayList">
-                <i class="fa fa-chevron-left"></i> ArrayList
+              <a href="/2020/05/28/MySQL-SQL/" rel="next" title="MySQL-SQL">
+                <i class="fa fa-chevron-left"></i> MySQL-SQL
               </a>
             
           </div>
@@ -473,8 +422,8 @@ Node&lt;E&gt; node(int index) {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/20/Synchronized/" rel="prev" title="Synchronized">
-                Synchronized <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/28/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" rel="prev" title="JVM-类加载机制">
+                JVM-类加载机制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +551,7 @@ Node&lt;E&gt; node(int index) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">LinkedList的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造器：LinkedList"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 无参构造器：LinkedList()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-add-E"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 add(E)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-E-get-i"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 E get(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面经一"><span class="nav-number">1.</span> <span class="nav-text">面经一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明：说实话，看到这份面经，还是有点震惊"><span class="nav-number">1.1.</span> <span class="nav-text">说明：说实话，看到这份面经，还是有点震惊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一面（视频面）-1小时30分钟"><span class="nav-number">1.2.</span> <span class="nav-text">一面（视频面）  1小时30分钟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、实例化对象的方式有几种？"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、实例化对象的方式有几种？</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

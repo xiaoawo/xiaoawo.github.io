@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
+<meta name="description" content="类加载机制一、概述 在使用 java -c *.java 后，会根据 *.java这样一个文件生成一个 *.class文件（以二进制形式存在） *.class包含了描述*.java的所有信息 但是，JVM在使用一个类时，不可能每次都根据 *.class这样一个二进制文件来处理，所以必须将 *.class转为一种方便操作的类型（Class对象） 将 *.class文件转为JVM内的Class对象的过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedList">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/LinkedList/index.html">
+<meta property="og:title" content="JVM-类加载机制">
+<meta property="og:url" content="http://yoursite.com/2020/05/28/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
-<meta property="article:published_time" content="2020-05-20T08:48:01.000Z">
-<meta property="article:modified_time" content="2020-05-20T08:58:55.156Z">
+<meta property="og:description" content="类加载机制一、概述 在使用 java -c *.java 后，会根据 *.java这样一个文件生成一个 *.class文件（以二进制形式存在） *.class包含了描述*.java的所有信息 但是，JVM在使用一个类时，不可能每次都根据 *.class这样一个二进制文件来处理，所以必须将 *.class转为一种方便操作的类型（Class对象） 将 *.class文件转为JVM内的Class对象的过">
+<meta property="og:image" content="http://static.zybuluo.com/Rico123/ojhhtids41ivtuowfj74mkb2/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B">
+<meta property="og:image" content="http://www.sxkawzp.cn/upload/2019/10/ClassLoaderThree-0dcc2a754beb42b598e9fdc067822ff2.png">
+<meta property="article:published_time" content="2020-05-28T13:41:29.000Z">
+<meta property="article:modified_time" content="2020-05-28T15:57:46.912Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://static.zybuluo.com/Rico123/ojhhtids41ivtuowfj74mkb2/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/LinkedList/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/28/JVM-类加载机制/"/>
 
 
 
 
 
-  <title>LinkedList | 小蜗学习之旅</title>
+  <title>JVM-类加载机制 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedList</h1>
+          <h1 class="post-title" itemprop="name headline">JVM-类加载机制</h1>
         
 
         <div class="post-meta">
@@ -323,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T21:41:29+08:00">
+                2020-05-28
               </time>
             
 
@@ -346,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">-JVM</span>
                   </a>
                 </span>
 
@@ -383,63 +386,153 @@
       
 
       
-        <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
+        <h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><ul>
+<li>在使用 java -c *.java 后，会根据 *.java这样一个文件生成一个 *.class文件（以二进制形式存在）</li>
+<li>*.class包含了描述*.java的所有信息</li>
+<li>但是，JVM在使用一个类时，不可能每次都根据 *.class这样一个二进制文件来处理，所以必须将 *.class转为一种方便操作的类型（Class对象）</li>
+<li>将 *.class文件转为JVM内的Class对象的过程就是类加载的过程</li>
+</ul>
+<h4 id="二、类加载时机"><a href="#二、类加载时机" class="headerlink" title="二、类加载时机"></a>二、类加载时机</h4><p><strong>1、类加载时机并无明确规定</strong>  </p>
+<p><strong>2、类初始化时机，有且只有5种（所以，类加载必须在此之前完成）</strong>  </p>
+<ul>
+<li>遇到new、getstatic（获取静态变量）、putstatic（设置静态变量）、invokestatic（调用静态方法）  </li>
+<li>反射调用</li>
+<li>初始化子类之前必先初始化父类</li>
+<li>JVM启动时，会先执行一个启动类（包含main()方法的类）</li>
+<li>当使用jdk1.7动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getstatic, REF_putstatic, REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行初始化，则需要先出触发其初始化</li>
+</ul>
+<h4 id="三、类加载过程"><a href="#三、类加载过程" class="headerlink" title="三、类加载过程"></a>三、类加载过程</h4><div align=center><img src="http://static.zybuluo.com/Rico123/ojhhtids41ivtuowfj74mkb2/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B" width="600"/></div>
 
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
+<div align=center>类的生命周期</div>
+
+<p><strong>1、加载</strong>   </p>
+<ul>
+<li>根据类名寻找描述该类的二进制字节流（比如，*.class文件）的过程【这里涉及到了双亲委派模型（后面聊）】</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中(对于HotSpot虚拟就而言就是方法区)生成一个代表这个类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</li>
+</ul>
+<p><strong>2、验证</strong> </p>
+<p>主要目的是为了防止恶意的*.class文件，保证安全，但不是必须的</p>
+<ul>
+<li>文件格式验证：验证字节流是否符合Class文件格式的规范(例如，是否以魔术0xCAFEBABE开头、主次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型)</li>
+<li>元数据验证：对字节码描述的信息进行语义分析，以保证其描述的信息符合Java语言规范的要求(例如：这个类是否有父类，除了java.lang.Object之外)；</li>
+<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的;</li>
+<li>符号引用验证：确保解析动作能正确执行。</li>
+</ul>
+<p><strong>3、准备</strong></p>
+<p> 为类变量(static 成员变量)分配内存并设置类变量初始值（零值）的阶段，这些变量所使用的内存都将在方法区中进行分配</p>
+<ul>
+<li>final修饰的会直接赋设置的值，而非零值</li>
+</ul>
+<p><strong>4、解析</strong></p>
+<p>将常量池内的符号引用替换为直接引用</p>
+<p><strong>5、初始化</strong></p>
+<p>初始化阶段是执行类构造器<clinit>()方法的过程。  </p>
+<ul>
+<li>&lt;clinit&gt;()方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块static{}中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问。</li>
+</ul>
+<h4 id="四、类加载器"><a href="#四、类加载器" class="headerlink" title="四、类加载器"></a>四、类加载器</h4><p><strong>1、类加载器</strong> </p>
+<ul>
+<li><p>类加载器的作用就是根据类的全限定名获取描述此类的二进制字节流</p>
+</li>
+<li><p>在JVM通过类加载和类本身来确定类的唯一性</p>
+</li>
+<li><p><strong>JVM自带的加载器（重要）：</strong></p>
+<ul>
+<li>Bootstrap，根加载器 :  <ul>
+<li>加载 jre\lib\ *.jar（包含了Object、String、Math等平时编写代码时 大部分的jdk API）；  </li>
+<li>也可以通过JVM参数-Xbootclasspath指定加载某一个jar扩展类加载器</li>
+</ul>
+</li>
+<li>Extension，扩展类加载器 ：<ul>
+<li>加载jre中lib\ext\ *.jar中的类 ;</li>
+<li>也可以通过JVM参数-Djava.ext.dirs指定加载某一个jar</li>
+</ul>
+</li>
+<li>AppClassLoader/SystemClassLoader，系统加载器（也称为应用加载器）：<ul>
+<li>加载classpath（通常程序中的src）；</li>
+<li>也可以通过JVM参数-Djava.class.path指定加载某一个类/jar</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用户自定义的加载器都是抽象类java.lang.ClassLoader的子类，用于自定义加载</p>
+</li>
+</ul>
+<p><strong>2、双亲委派模型</strong> </p>
+<div align=center><img src="http://www.sxkawzp.cn/upload/2019/10/ClassLoaderThree-0dcc2a754beb42b598e9fdc067822ff2.png" width="600"/></div>
+
+<div align=center>双亲委派模型</div>
+
+<ul>
+<li><p><strong>双亲委派”机制加载Class的具体过程是：</strong>  </p>
+<ul>
+<li>源ClassLoader先判断该Class是否已加载，如果已加载，则返回Class对象；如果没有则委托给父类加载器。</li>
+<li>父类加载器判断是否加载过该Class，如果已加载，则返回Class对象；如果没有则委托给祖父类加载器。依此类推，直到始祖类加载器（引用类加载器）。</li>
+<li>始祖类加载器判断是否加载过该Class，如果已加载，则返回Class对象；如果没有则尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，则委托给始祖类加载器的子类加载器。</li>
+<li>始祖类加载器的子类加载器尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，则委托给始祖类加载器的孙类加载器。依此类推，直到源ClassLoader。</li>
+<li>源ClassLoader尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，源ClassLoader不会再委托其子类加载器，而是抛出异常。</li>
+</ul>
+</li>
+<li><p>主要有了层次结构后，可以保证类的加载不再混乱，避免重复加载以及恶意代码，使得java程序可以稳定运行</p>
+<pre><code>protected Class&lt;?&gt; loadClass(String name, boolean resolve) throws ClassNotFoundException{
+
+    synchronized (getClassLoadingLock(name)) {//加锁
+        // First, check if the class has already been loaded
+        Class&lt;?&gt; c = findLoadedClass(name);//检查是否已经加载过了
+        if (c == null) {
+            long t0 = System.nanoTime();
+            try {
+                if (parent != null) {//父不为空，交由父加载
+                    c = parent.loadClass(name, false);
+                } else {//父为空，说明当前为根加载器
+                    c = findBootstrapClassOrNull(name);
+                }
+            } catch (ClassNotFoundException e) {
+                // ClassNotFoundException thrown if class not found
+                // from the non-null parent class loader
+            }
+
+            if (c == null) {//父未加载成功，交由当前类加载完成
+                // If still not found, then invoke findClass in order
+                // to find the class.
+                long t1 = System.nanoTime();
+                c = findClass(name);
+
+                // this is the defining class loader; record the stats
+                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
+                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
+                sun.misc.PerfCounter.getFindClasses().increment();
+            }
+        }
+        if (resolve) {
+            resolveClass(c);
+        }
+        return c;
     }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
+}</code></pre></li>
+</ul>
+<ul>
+<li><p><strong>全盘委托机制</strong>  </p>
+<ul>
+<li>是指当一个ClassLoader装载一个类时，除非显示地使用另一个ClassLoader，则该类所依赖及引用的类也由这个CladdLoader载入。</li>
+<li>例如，系统类加载器AppClassLoader加载入口类（含有main方法的类）时，会把main方法所依赖的类及引用的类也载入，依此类推。“全盘负责”机制也可称为当前类加载器负责机制。显然，入口类所依赖的类及引用的类的当前类加载器就是入口类的类加载器。</li>
+<li>注意：真正加载class字节码文件生成Class对象的类加载器由“双亲委派”机制完成。  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>我们可以继承java.lang.ClassLoader类，实现自己的类加载器。如果想保持双亲委派模型，就应该重写findClass(name)方法；如果想破坏双亲委派模型，可以重写loadClass(name)方法</li>
+</ul>
+<p><strong>3、破坏双亲委派模型</strong></p>
+<ul>
+<li>继承java.lang.ClassLoader类，实现自己的类加载器,重写loadClass(name)方法</li>
+<li>使用线程上下文类加载器（默认为应用类加载器）<ul>
+<li><a href="https://www.sxkawzp.cn/archives/JdbcTomcatClassLoaderDestroy" target="_blank" rel="noopener">JDBC,TOMCAT为什么破坏双亲委派机制</a> </li>
+</ul>
+</li>
+</ul>
 
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
-    }
-}</code></pre>
       
     </div>
     
@@ -463,8 +556,8 @@ Node&lt;E&gt; node(int index) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/ArrayList/" rel="next" title="ArrayList">
-                <i class="fa fa-chevron-left"></i> ArrayList
+              <a href="/2020/05/28/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/" rel="next" title="面经-互联网-京东">
+                <i class="fa fa-chevron-left"></i> 面经-互联网-京东
               </a>
             
           </div>
@@ -472,10 +565,6 @@ Node&lt;E&gt; node(int index) {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/20/Synchronized/" rel="prev" title="Synchronized">
-                Synchronized <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -602,7 +691,7 @@ Node&lt;E&gt; node(int index) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">LinkedList的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造器：LinkedList"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 无参构造器：LinkedList()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-add-E"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 add(E)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-E-get-i"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 E get(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载机制"><span class="nav-number">1.</span> <span class="nav-text">类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概述"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、类加载时机"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、类加载时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、类加载过程"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、类加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、类加载器"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、类加载器</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

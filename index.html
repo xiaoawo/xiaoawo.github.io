@@ -293,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/Synchronized/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -312,7 +312,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/20/Synchronized/" itemprop="url">Synchronized</a></h1>
+                <a class="post-title-link" href="/2020/05/28/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" itemprop="url">JVM-类加载机制</a></h1>
         
 
         <div class="post-meta">
@@ -324,127 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T17:05:25+08:00">
-                2020-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小蜗">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/xiaoawo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小蜗学习之旅">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/20/LinkedList/" itemprop="url">LinkedList</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T21:41:29+08:00">
+                2020-05-28
               </time>
             
 
@@ -466,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">-JVM</span>
                   </a>
                 </span>
 
@@ -505,387 +386,149 @@
       
         
           
-            <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
-
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
-    }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
-
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
-    }
-}</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/ArrayList/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小蜗">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/xiaoawo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小蜗学习之旅">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/20/ArrayList/" itemprop="url">ArrayList</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T15:10:15+08:00">
-                2020-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ArrayList的底层实现（源码分析）"><a href="#ArrayList的底层实现（源码分析）" class="headerlink" title="ArrayList的底层实现（源码分析）"></a>ArrayList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>数组：Object[]</p>
-<h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：ArrayList"><a href="#2-1-无参构造器：ArrayList" class="headerlink" title="2.1 无参构造器：ArrayList()"></a>2.1 无参构造器：ArrayList()</h4><p>仅仅将this.elementData初始化为一个空的Object数组</p>
-<pre><code>public ArrayList() {
-    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
-}
-
-private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};//一个空的Object数组
-
-transient Object[] elementData;//transient表示不可以被序列化</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><p>2.2.1 简介  </p>
-<pre><code>public boolean add(E e) {
-    ensureCapacityInternal(size + 1);  // 确定容量（扩容时，1.5倍扩容，初始大小为10）
-    elementData[size++] = e;
-    return true;
-}</code></pre><p>2.2.2 详细  </p>
-<pre><code>public boolean add(E e) {
-    ensureCapacityInternal(size + 1);  // Increments modCount!!
-    elementData[size++] = e;
-    return true;
-}
-
-private void ensureCapacityInternal(int minCapacity) {
-    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));
-}
-
-//计算所需容量
-private static int calculateCapacity(Object[] elementData, int minCapacity) {
-    if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) { //当前数组为空
-        return Math.max(DEFAULT_CAPACITY, minCapacity); //DEFAULT_CAPACITY = 10
-    }
-    return minCapacity;
-}
-
-private void ensureExplicitCapacity(int minCapacity) {
-    modCount++;
-
-    // overflow-conscious code
-    if (minCapacity - elementData.length &gt; 0) //所需容量&gt;当前容量，扩容
-        grow(minCapacity);
-}
-
-//扩容
-private void grow(int minCapacity) {
-    // overflow-conscious code
-    int oldCapacity = elementData.length;
-    int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);//1.5倍扩容
-    if (newCapacity - minCapacity &lt; 0)
-        newCapacity = minCapacity;
-    if (newCapacity - MAX_ARRAY_SIZE &gt; 0)
-        newCapacity = hugeCapacity(minCapacity);
-    // minCapacity is usually close to size, so this is a win:
-    elementData = Arrays.copyOf(elementData, newCapacity);//最终调用的是本地方法
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    rangeCheck(index);//判断是否越界
-
-    return elementData(index);
-}
-
-private void rangeCheck(int index) {
-    if (index &gt;= size)
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/home/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小蜗">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/xiaoawo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小蜗学习之旅">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/20/home/" itemprop="url">home</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T14:37:52+08:00">
-                2020-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>###1、JAVA基础</p>
+            <h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><ul>
+<li>在使用 java -c *.java 后，会根据 *.java这样一个文件生成一个 *.class文件（以二进制形式存在）</li>
+<li>*.class包含了描述*.java的所有信息</li>
+<li>但是，JVM在使用一个类时，不可能每次都根据 *.class这样一个二进制文件来处理，所以必须将 *.class转为一种方便操作的类型（Class对象）</li>
+<li>将 *.class文件转为JVM内的Class对象的过程就是类加载的过程</li>
+</ul>
+<h4 id="二、类加载时机"><a href="#二、类加载时机" class="headerlink" title="二、类加载时机"></a>二、类加载时机</h4><p><strong>1、类加载时机并无明确规定</strong>  </p>
+<p><strong>2、类初始化时机，有且只有5种（所以，类加载必须在此之前完成）</strong>  </p>
 <ul>
-<li><strong>集合</strong><ul>
-<li><a href="https://xiaoawo.github.io/2020/05/20/HashMap/" target="_blank" rel="noopener">HashMap</a></li>
-<li><a href="https://xiaoawo.github.io/2020/05/20/ArrayList/" target="_blank" rel="noopener">ArrayList</a></li>
+<li>遇到new、getstatic（获取静态变量）、putstatic（设置静态变量）、invokestatic（调用静态方法）  </li>
+<li>反射调用</li>
+<li>初始化子类之前必先初始化父类</li>
+<li>JVM启动时，会先执行一个启动类（包含main()方法的类）</li>
+<li>当使用jdk1.7动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getstatic, REF_putstatic, REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行初始化，则需要先出触发其初始化</li>
+</ul>
+<h4 id="三、类加载过程"><a href="#三、类加载过程" class="headerlink" title="三、类加载过程"></a>三、类加载过程</h4><div align=center><img src="http://static.zybuluo.com/Rico123/ojhhtids41ivtuowfj74mkb2/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B" width="600"/></div>
+
+<div align=center>类的生命周期</div>
+
+<p><strong>1、加载</strong>   </p>
+<ul>
+<li>根据类名寻找描述该类的二进制字节流（比如，*.class文件）的过程【这里涉及到了双亲委派模型（后面聊）】</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中(对于HotSpot虚拟就而言就是方法区)生成一个代表这个类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</li>
+</ul>
+<p><strong>2、验证</strong> </p>
+<p>主要目的是为了防止恶意的*.class文件，保证安全，但不是必须的</p>
+<ul>
+<li>文件格式验证：验证字节流是否符合Class文件格式的规范(例如，是否以魔术0xCAFEBABE开头、主次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型)</li>
+<li>元数据验证：对字节码描述的信息进行语义分析，以保证其描述的信息符合Java语言规范的要求(例如：这个类是否有父类，除了java.lang.Object之外)；</li>
+<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的;</li>
+<li>符号引用验证：确保解析动作能正确执行。</li>
+</ul>
+<p><strong>3、准备</strong></p>
+<p> 为类变量(static 成员变量)分配内存并设置类变量初始值（零值）的阶段，这些变量所使用的内存都将在方法区中进行分配</p>
+<ul>
+<li>final修饰的会直接赋设置的值，而非零值</li>
+</ul>
+<p><strong>4、解析</strong></p>
+<p>将常量池内的符号引用替换为直接引用</p>
+<p><strong>5、初始化</strong></p>
+<p>初始化阶段是执行类构造器<clinit>()方法的过程。  </p>
+<ul>
+<li>&lt;clinit&gt;()方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块static{}中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问。</li>
+</ul>
+<h4 id="四、类加载器"><a href="#四、类加载器" class="headerlink" title="四、类加载器"></a>四、类加载器</h4><p><strong>1、类加载器</strong> </p>
+<ul>
+<li><p>类加载器的作用就是根据类的全限定名获取描述此类的二进制字节流</p>
+</li>
+<li><p>在JVM通过类加载和类本身来确定类的唯一性</p>
+</li>
+<li><p><strong>JVM自带的加载器（重要）：</strong></p>
+<ul>
+<li>Bootstrap，根加载器 :  <ul>
+<li>加载 jre\lib\ *.jar（包含了Object、String、Math等平时编写代码时 大部分的jdk API）；  </li>
+<li>也可以通过JVM参数-Xbootclasspath指定加载某一个jar扩展类加载器</li>
+</ul>
+</li>
+<li>Extension，扩展类加载器 ：<ul>
+<li>加载jre中lib\ext\ *.jar中的类 ;</li>
+<li>也可以通过JVM参数-Djava.ext.dirs指定加载某一个jar</li>
+</ul>
+</li>
+<li>AppClassLoader/SystemClassLoader，系统加载器（也称为应用加载器）：<ul>
+<li>加载classpath（通常程序中的src）；</li>
+<li>也可以通过JVM参数-Djava.class.path指定加载某一个类/jar</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用户自定义的加载器都是抽象类java.lang.ClassLoader的子类，用于自定义加载</p>
+</li>
+</ul>
+<p><strong>2、双亲委派模型</strong> </p>
+<div align=center><img src="http://www.sxkawzp.cn/upload/2019/10/ClassLoaderThree-0dcc2a754beb42b598e9fdc067822ff2.png" width="600"/></div>
+
+<div align=center>双亲委派模型</div>
+
+<ul>
+<li><p><strong>双亲委派”机制加载Class的具体过程是：</strong>  </p>
+<ul>
+<li>源ClassLoader先判断该Class是否已加载，如果已加载，则返回Class对象；如果没有则委托给父类加载器。</li>
+<li>父类加载器判断是否加载过该Class，如果已加载，则返回Class对象；如果没有则委托给祖父类加载器。依此类推，直到始祖类加载器（引用类加载器）。</li>
+<li>始祖类加载器判断是否加载过该Class，如果已加载，则返回Class对象；如果没有则尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，则委托给始祖类加载器的子类加载器。</li>
+<li>始祖类加载器的子类加载器尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，则委托给始祖类加载器的孙类加载器。依此类推，直到源ClassLoader。</li>
+<li>源ClassLoader尝试从其对应的类路径下寻找class字节码文件并载入。如果载入成功，则返回Class对象；如果载入失败，源ClassLoader不会再委托其子类加载器，而是抛出异常。</li>
+</ul>
+</li>
+<li><p>主要有了层次结构后，可以保证类的加载不再混乱，避免重复加载以及恶意代码，使得java程序可以稳定运行</p>
+<pre><code>protected Class&lt;?&gt; loadClass(String name, boolean resolve) throws ClassNotFoundException{
+
+    synchronized (getClassLoadingLock(name)) {//加锁
+        // First, check if the class has already been loaded
+        Class&lt;?&gt; c = findLoadedClass(name);//检查是否已经加载过了
+        if (c == null) {
+            long t0 = System.nanoTime();
+            try {
+                if (parent != null) {//父不为空，交由父加载
+                    c = parent.loadClass(name, false);
+                } else {//父为空，说明当前为根加载器
+                    c = findBootstrapClassOrNull(name);
+                }
+            } catch (ClassNotFoundException e) {
+                // ClassNotFoundException thrown if class not found
+                // from the non-null parent class loader
+            }
+
+            if (c == null) {//父未加载成功，交由当前类加载完成
+                // If still not found, then invoke findClass in order
+                // to find the class.
+                long t1 = System.nanoTime();
+                c = findClass(name);
+
+                // this is the defining class loader; record the stats
+                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
+                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
+                sun.misc.PerfCounter.getFindClasses().increment();
+            }
+        }
+        if (resolve) {
+            resolveClass(c);
+        }
+        return c;
+    }
+}</code></pre></li>
+</ul>
+<ul>
+<li><p><strong>全盘委托机制</strong>  </p>
+<ul>
+<li>是指当一个ClassLoader装载一个类时，除非显示地使用另一个ClassLoader，则该类所依赖及引用的类也由这个CladdLoader载入。</li>
+<li>例如，系统类加载器AppClassLoader加载入口类（含有main方法的类）时，会把main方法所依赖的类及引用的类也载入，依此类推。“全盘负责”机制也可称为当前类加载器负责机制。显然，入口类所依赖的类及引用的类的当前类加载器就是入口类的类加载器。</li>
+<li>注意：真正加载class字节码文件生成Class对象的类加载器由“双亲委派”机制完成。  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>我们可以继承java.lang.ClassLoader类，实现自己的类加载器。如果想保持双亲委派模型，就应该重写findClass(name)方法；如果想破坏双亲委派模型，可以重写loadClass(name)方法</li>
+</ul>
+<p><strong>3、破坏双亲委派模型</strong></p>
+<ul>
+<li>继承java.lang.ClassLoader类，实现自己的类加载器,重写loadClass(name)方法</li>
+<li>使用线程上下文类加载器（默认为应用类加载器）<ul>
+<li><a href="https://www.sxkawzp.cn/archives/JdbcTomcatClassLoaderDestroy" target="_blank" rel="noopener">JDBC,TOMCAT为什么破坏双亲委派机制</a> </li>
 </ul>
 </li>
 </ul>
@@ -937,7 +580,7 @@ private void rangeCheck(int index) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/JAVA%E9%9B%86%E5%90%88-HashMap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -956,7 +599,7 @@ private void rangeCheck(int index) {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/20/JAVA%E9%9B%86%E5%90%88-HashMap/" itemprop="url">JAVA集合-HashMap</a></h1>
+                <a class="post-title-link" href="/2020/05/28/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/" itemprop="url">面经-互联网-京东</a></h1>
         
 
         <div class="post-meta">
@@ -968,8 +611,8 @@ private void rangeCheck(int index) {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T13:42:23+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T20:59:16+08:00">
+                2020-05-28
               </time>
             
 
@@ -991,8 +634,8 @@ private void rangeCheck(int index) {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F-%E4%BA%92%E8%81%94%E7%BD%91-%E4%BA%AC%E4%B8%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">-面经 -互联网 -京东</span>
                   </a>
                 </span>
 
@@ -1030,183 +673,524 @@ private void rangeCheck(int index) {
       
         
           
-            <h2 id="一、HashMap的底层实现"><a href="#一、HashMap的底层实现" class="headerlink" title="一、HashMap的底层实现"></a>一、HashMap的底层实现</h2><p><strong>1. 数据结构</strong>  </p>
-<p>JDK1.7 : 数组+链表<br>JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）  </p>
-<p><strong>2. 源码分析</strong>  </p>
-<p>2.1 put(K,V)</p>
-<p>2.1.1 简介</p>
-<pre><code>public V put(K,V){
-    return putVal(hash(K),K,V,?,?)；//实际上调用的是putVal
-}
+            <h2 id="面经一"><a href="#面经一" class="headerlink" title="面经一"></a>面经一</h2><h3 id="说明：说实话，看到这份面经，还是有点震惊"><a href="#说明：说实话，看到这份面经，还是有点震惊" class="headerlink" title="说明：说实话，看到这份面经，还是有点震惊"></a>说明：说实话，看到这份面经，还是有点震惊</h3><p><a href="https://www.nowcoder.com/discuss/432918" target="_blank" rel="noopener">原文链接</a></p>
+<h3 id="一面（视频面）-1小时30分钟"><a href="#一面（视频面）-1小时30分钟" class="headerlink" title="一面（视频面）  1小时30分钟"></a>一面（视频面）  1小时30分钟</h3><h4 id="1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系"><a href="#1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系" class="headerlink" title="1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系"></a>1、类加载机制概念、加载步骤、双亲委托机制、全盘委托机制、类加载器种类及继承关系</h4><h4 id="2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？"><a href="#2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？" class="headerlink" title="2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？"></a>2、如何实现让类加载器去加载网络上的资源文件？怎么自定义类加载器？自定义的加载器还符合双亲委托机制吗？怎么打破双亲委托机制？</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/28/JVM-类加载机制/" target="_blank" rel="noopener">类加载机制</a></li>
+</ul>
+<h4 id="3、实例化对象的方式有几种？"><a href="#3、实例化对象的方式有几种？" class="headerlink" title="3、实例化对象的方式有几种？"></a>3、实例化对象的方式有几种？</h4><p>4、由Object类的clone方法引申到深复制和浅复制的区别<br>5、反射的概念、用法、实践<br>6、Java内存模型和JVM内存结构<br>7、有一台4核8G的机器，该给JVM里的堆区和虚拟机栈分配多大的内存？（初始值、最大值、堆区年轻代和老年代的分配比例等等）<br>8、堆内存中的年轻代分配内存过少或过多分别有什么影响？复制算***导致Stop-the-World吗？<br>9、哪些参数可以设置JVM中的内存分配？<br>10、需要在线程范围内去共享一个变量，怎么实现？ThreadLocal源码实现、Key弱引用导致的内存泄露、怎么避免？     （这道题我一直理解成在多个线程之间去共享变量，说了volatile，面试官一直说不对，后来我猜意识到是在线程范围内共享变量….）<br>11、volatile的作用、实现机制、缓存一致性实现<br>12、AtomicInteger原子类的作用、源码实现机制<br>13、CAS无锁算法概念、源码实现机制、Unsafe类源码延伸到HotSpot虚拟机对应的C++方法再延伸对应的汇编函数<br>14、ReentrantLock中非公平锁的源码实现、AQS源码实现、为什么需要自旋锁？锁膨胀的过程？<br>15、线程池的使用场景、常用参数、拒绝策略<br>16、阻塞队列的种类、底层数据结构和使用场景<br>17、手写BIO的Socket编程、BIO和NIO的区别<br>18、Netty线程模型、零拷贝、粘包拆包、心跳机制、Pipeline源码<br>19、责任链模型、策略模式、模板模式、设计模式里的原则<br>20、Top K问题，找到上千万个数字中从大到小的前10个数字<br>21、MySQL中的聚集索引和稀疏索引区别、索引是越多越好吗？什么样的字段适合建索引？<br>22、索引覆盖和回表的概念、怎么避免回表？<br>23、为什么采用B+树而不用AVL树？<br>24、事务的底层实现<br>25、MVCC的概念及实现机制<br>26、Redis为什么这么快？为什么不用多线程？<br>27、哈希表查询的时间复杂度、哈希冲突的解决方法？<br>28、Sorted Set的应用场景、跳表的实现、查询和插入的时间复杂度？<br>29、Dubbo的应用场景、底层通信组件、服务降级、负载均衡、接口暴露、序列化方式、让你实现一个简单的RPC框架你会怎么做？<br>30、Zookeeper的应用场景、watch机制、领导者选举算法、ZK实现分布式锁<br>31、对称加密、非对称加密、数字证书、HTTPS的连接过程、SSL加密一定安全吗？SSL在哪一层实现加密？<br>32、OSI七层协议？路由器工作在那一层？HTTP、TCP、FTP、DNS工作在哪一层？     33、ARP协议的作用及流程     34、Git的操作、代码冲突的解决方法<br>35、Redis的缓存穿透、缓存雪崩、数据一致性的解决方案<br>36、Elasticsearch的倒排索引、index和document的概念、脑裂问题<br>37、RabbitMQ应用场景、生产/消费者和发布/订阅模式概念和应用、数据丢失问题<br>38、商品超卖的解决方法、MySQL乐观锁和Redis乐观锁<br>39、手写SQL：有一个成绩表，表里有三个字段分别是姓名、课程和成绩，求课程平均分大于85分的学生姓名和平均成绩。<br>40、算法：写归并排序和快排、分析时间复杂度、怎么评定是不是一个稳定的排序算法？<br>二面（视频面） 50分钟<br>1、Hashmap和Concurrenthashmap<br>2、线程池核心参数、拒绝策略<br>3、SynchroQueue的应用场景？ 可以存几个元素？<br>4、Lock的公平锁和非公平锁的怎么实现的<br>5、说说AQS<br>6、Lock是怎么给线程分配锁的？<br>7、Spring Bean的生命周期<br>8、说一说Spring的AOP<br>9、SpringBoot启动过程的源码<br>10、怎么学习开源框架<br>11、Netty零拷贝？心跳机制？粘包拆包？<br>12、ASM怎么实现cglib<br>13、说一说数据库有哪些索引？聚簇索引和非聚簇索引区别？什么是索引覆盖和回表？什么是索引下推？<br>14、二叉树和B+树的区别<br>15、了解哪些常用的Linux命令<br>16、Linux根目录下有哪些文件夹<br>17、JVM常用命令<br>18、jstat的常用参数<br>19、进程通信方式<br>20、Linux线程调度方式<br>21、Linux的缓存有几级<br>22、Redis的删除策略？<br>22、什么是分布式？分布式和微服务有什么联系？CAP理论听过吗？为什么CAP理论最多职能满足两个？<br>23、算法：环形链表入口<br>HR面（电话面） 18分钟     没有自我介绍，直入主题。<br>1、你觉得笔试难度怎么样？<br>2、我看你前几轮的综合成绩都蛮高的，未来想在北京发展吗？<br>3、像广州深圳杭州互联网公司都很多，为什么投了北京的岗位呢？<br>4、我可能比较直白一点，你的学历在我们这些候选人里面是比较低的，你觉得你的优势在哪里？<br>5、想过考研吗？不考研的话未来可能几年后你觉得有能力能胜任这些工作吗？<br>6、你觉得为什么自己没有上一些比较好的学校？专业是自己选的吗？<br>7、实习时长？给前两轮面试官一个评价？</p>
 
-//hash(K)：在K的hashCode基础上，保持高16位不变，新低16位=高16位^旧低16位
-static final int hash(Object key) {
-    int h;
-    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
-}
+          
+        
+      
+    </div>
+    
+    
+    
 
-//&gt;&gt;&gt;:符号位跟着移动的右移
-//hashCode()：Object的方法，而且是public native int hashCode();
+    
 
-//putVal
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
-    //判断table是否为空，是则执行resize()
+    
 
-    //当前桶位置是否为空，
-        //是：直接插入
-        //否：
-            //if key是否与头节点的key相同（hash相同 and equals) 直接替换
-            //else if 是树节点，红黑树插入
-            //else 链表插入（链表大小&gt;=8-1 : 链转树）
-    ++modCount;
-    //if 超出了阈值，扩容:resize()
+    
 
-}
+    <footer class="post-footer">
+      
 
-//扩容
-final Node&lt;K,V&gt;[] resize() {
-    //计算新容量与新阈值
+      
 
-    //将旧tab中的值复制到新的tab中
-    //挨个遍历桶
-        //当前桶中只有一个node,所以只需要计算新位置，放入新桶即可  新位置：hash值&amp;（新容量-1）= hash值 %（新容量-1）
-        //当前是红黑树
-        //当前是链表
-            根据(e.hash &amp; oldCap) == 0 和 (e.hash &amp; oldCap) == 1，分为了两部分处理
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
-    //返回新的table
-}</code></pre><p>2.1.2 详细</p>
-<pre><code>public V put(K,V){
-    return putVal(hash(K),K,V,?,?)
-}
+    
+      
 
-//hash(K)：在K的hashCode基础上，保持高16位不变，新低16位=高16位^旧低16位
-static final int hash(Object key) {
-    int h;
-    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
-}
+  
 
-//&gt;&gt;&gt;:符号位跟着移动的右移
-//hashCode()：Object的方法，而且是public native int hashCode();
+  
+  
+  
 
-//putVal
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
-    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
-    if ((tab = table) == null || (n = tab.length) == 0)//将table赋值给tab,如果tab为空，或者大小为0，则重新为tab开辟空间
-        n = (tab = resize()).length;
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/MySQL-SQL/">
 
-    if ((p = tab[i = (n - 1) &amp; hash]) == null)//当前计算出的位置为null,直接放入即可
-        tab[i] = newNode(hash, key, value, null);
-    else {
-        Node&lt;K,V&gt; e; K k;
-        if (p.hash == hash &amp;&amp; ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))//hash值与p的hash完全相同，且key也相同：所以hashmap中判断两个key是否相同会先判断hash是否相同 且 使用 equals再判断下
-            e = p;
-        else if (p instanceof TreeNode)//树节点
-            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
-        else {//链表
-            for (int binCount = 0; ; ++binCount) {
-                if ((e = p.next) == null) {
-                    p.next = newNode(hash, key, value, null);
-                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st binCount &gt;= 8-1
-                        treeifyBin(tab, hash);//链转树
-                    break;
-                }
-                if (e.hash == hash &amp;&amp; ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))//key完全相同
-                    break;
-                p = e;
-            }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/28/MySQL-SQL/" itemprop="url">MySQL-SQL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T20:48:36+08:00">
+                2020-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">-MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><h3 id="说明：SQL的语法详见《MYSQL必知必会》，这里只做一些问题的归类"><a href="#说明：SQL的语法详见《MYSQL必知必会》，这里只做一些问题的归类" class="headerlink" title="说明：SQL的语法详见《MYSQL必知必会》，这里只做一些问题的归类"></a>说明：SQL的语法详见《MYSQL必知必会》，这里只做一些问题的归类</h3><ul>
+<li><a href="https://www.cnblogs.com/yyxz/p/3812499.html" target="_blank" rel="noopener"><strong>left join语句的作用，后面on和where的区别</strong></a>  <ul>
+<li>左边表做全表扫描，on只对右边表起过滤作用，where对两个表都起过滤作用</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/28/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB/" itemprop="url">JAVA多线程-并发工具类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T18:17:28+08:00">
+                2020-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">-JAVA多线程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="线程同步工具类"><a href="#线程同步工具类" class="headerlink" title="线程同步工具类"></a>线程同步工具类</h2><h4 id="CountDownLatch-计数门闩"><a href="#CountDownLatch-计数门闩" class="headerlink" title="CountDownLatch(计数门闩)"></a>CountDownLatch(计数门闩)</h4><ul>
+<li><p>等到CountDownLatch的计数减为0后，才是执行后面的任务</p>
+<pre><code>package multhread.util;  
+import java.util.concurrent.*;    
+
+public class CountDownLatchTest {
+
+    public static void main(String[] args){
+        CountDownLatch c1=new CountDownLatch(1);//声明一个CountDownLatch
+        CountDownLatch c2=new CountDownLatch(1);
+        CountDownLatch c3=new CountDownLatch(1);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future&lt;Integer&gt; future1 = executorService.submit(new Work(1,null,c1));
+        Future&lt;Integer&gt; future2 = executorService.submit(new Work(2,c1,c2));
+        Future&lt;Integer&gt; future3 = executorService.submit(new Work(3,c2,c3));
+
+        executorService.shutdown();
+
+        try {
+            c3.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        if (e != null) { // existing mapping for key
-            V oldValue = e.value;
-            if (!onlyIfAbsent || oldValue == null)
-                e.value = value;
-            afterNodeAccess(e);//钩子方法
-            return oldValue;
+        System.out.println(&quot;主线程在执行任务...&quot;);
+        try {
+            Thread.sleep(2000);
+        } catch(InterruptedException ex) {
+            ex.printStackTrace();
         }
+
+        try {
+            System.out.println(&quot;woek运行结果:&quot;+future1.get());
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (ExecutionException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(&quot;所有任务执行完毕&quot;);
     }
-    ++modCount;
-    if (++size &gt; threshold)//超出了阈值，扩容
-        resize();
-    afterNodeInsertion(evict);
-    return null;
 }
 
-//重置
-final Node&lt;K,V&gt;[] resize() {
-    Node&lt;K,V&gt;[] oldTab = table;
-    int oldCap = (oldTab == null) ? 0 : oldTab.length;
-    int oldThr = threshold;
-    int newCap, newThr = 0;
-    if (oldCap &gt; 0) {
-        if (oldCap &gt;= MAXIMUM_CAPACITY) {//已经达到了最大容量：1 &lt;&lt; 30，不再扩容，直接返回旧的table
-            threshold = Integer.MAX_VALUE;
-            return oldTab;
-        }else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp; oldCap &gt;= DEFAULT_INITIAL_CAPACITY)//二倍扩容后&lt;最大容量 &amp;&amp; 旧的容量&gt;=初始容量：1 &lt;&lt; 4
-            newThr = oldThr &lt;&lt; 1; //A:threshold=capacity*loadFactor 表示当HashMap的size大于threshold时会执行resize操作
-    }else if (oldThr &gt; 0) // 旧容量为0，且旧门限&gt;0,则 新容量=旧门限
-        newCap = oldThr;
-    else {               //旧容量=0 且 旧门限=0
-        newCap = DEFAULT_INITIAL_CAPACITY;
-        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+#############################################
+package multhread.util;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+
+public class Work implements Callable {
+
+    int id;
+    CountDownLatch cPre;
+    CountDownLatch cPost;
+
+    public Work(int id, CountDownLatch cPre, CountDownLatch cPost){
+        this.id=id;
+        this.cPre=cPre;
+        this.cPost=cPost;
     }
-
-
-    if (newThr == 0) {//应该是处理A处出现左移后变为0的情况
-        float ft = (float)newCap * loadFactor;
-        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
-                  (int)ft : Integer.MAX_VALUE);
+    public Integer call() throws Exception {
+        if(cPre!=null)  cPre.await();//判断其之前的任务是否完成，即CountDownLatch的计数是否为0了
+        System.out.println(&quot;thread is &quot;+id);
+        if(cPost!=null) cPost.countDown();//将CountDownLatch的计数减1
+        return 1000+id;
     }
-    threshold = newThr;
-    @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
-    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
-    table = newTab;
+}</code></pre></li>
+</ul>
+<h4 id="CyclicBarrier-循环屏障"><a href="#CyclicBarrier-循环屏障" class="headerlink" title="CyclicBarrier(循环屏障)"></a>CyclicBarrier(循环屏障)</h4><ul>
+<li>等到所有线程都到达屏障后，再继续执行</li>
+<li>比如一些线程在执行了一部分任务后，需要等待其他线程执行完成，才能继续执行后面的部分，这时候虽然用CountDownLatch也可完成，但可能实现比较复杂</li>
+<li>所以CountDownLatch面向的是一个点，CyclicBarrier面向的是一个面    </li>
+<li>CyclicBarrier可以通过reset()重置计数器，但CountDownLatch不可以</li>
+</ul>
+<pre><code>package multhread.util; 
 
-    //将旧tab中的值复制到新的tab中
-    if (oldTab != null) {
-        for (int j = 0; j &lt; oldCap; ++j) {
-            Node&lt;K,V&gt; e;
-            if ((e = oldTab[j]) != null) {
-                oldTab[j] = null;
-                if (e.next == null)//当前桶中只有一个node,所以只需要计算新位置，放入新桶即可
-                    newTab[e.hash &amp; (newCap - 1)] = e;//新位置：hash值&amp;（新容量-1）= hash值 %（新容量-1）
-                else if (e instanceof TreeNode)//当前是红黑树
-                    ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
-                else { //当前是链表
-                    Node&lt;K,V&gt; loHead = null, loTail = null;
-                    Node&lt;K,V&gt; hiHead = null, hiTail = null;
-                    Node&lt;K,V&gt; next;
-                    do {
-                        next = e.next;
-                        if ((e.hash &amp; oldCap) == 0) {//说明hash值&amp;（新容量-1）&lt; oldCap
-                            if (loTail == null)
-                                loHead = e;
-                            else
-                                loTail.next = e;//尾插法
-                            loTail = e;
-                        }
-                        else {//说明hash值&amp;（新容量-1）&gt; oldCap
-                            if (hiTail == null)
-                                hiHead = e;
-                            else
-                                hiTail.next = e;
-                            hiTail = e;
-                        }
-                    } while ((e = next) != null);
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-                    if (loTail != null) { 
-                        loTail.next = null;
-                        newTab[j] = loHead;
-                    }
-                    if (hiTail != null) {
-                        hiTail.next = null;
-                        newTab[j + oldCap] = hiHead;
-                    }
-                }
-            }
+public class CyclicBarrierTest {
+
+
+    public static void main(String[] args){
+        CyclicBarrier cb=new CyclicBarrier(3);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future&lt;Integer&gt; future1 = executorService.submit(new WorkCB(1,cb));
+        Future&lt;Integer&gt; future2 = executorService.submit(new WorkCB(2,cb));
+        Future&lt;Integer&gt; future3 = executorService.submit(new WorkCB(3,cb));
+
+        executorService.shutdown();
+    }
+}
+
+#####################################################
+package multhread.util;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+
+public class WorkCB implements Callable {
+
+    int id;
+    CyclicBarrier cb;
+
+    public WorkCB(int id, CyclicBarrier cb){
+        this.id=id;
+        this.cb=cb;
+    }
+    public Integer call() throws Exception {
+        System.out.println(&quot;thread is &quot;+id+&quot; first&quot;);
+        cb.await();//等待其他到达屏障后，再执行
+        System.out.println(&quot;thread is &quot;+id);
+        return 1000+id;
+    }
+}
+
+####################执行结果#########################
+thread is 1 first
+thread is 2 first
+thread is 3 first
+thread is 3
+thread is 2
+thread is 1
+####################结果分析#########################
+first之间可以乱序，但一定在不带first的之前执行</code></pre><h4 id="Semaphore-信号量"><a href="#Semaphore-信号量" class="headerlink" title="Semaphore(信号量)"></a>Semaphore(信号量)</h4><ul>
+<li><p>用来控制访问资源的线程数量</p>
+</li>
+<li><p>当Semaphore=1时，就是一把互斥锁</p>
+</li>
+<li><p>s.acquire();//获取许可证                    </p>
+</li>
+<li><p>s.release();//释放许可证</p>
+<pre><code>package multhread.util;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+
+public class SemaphoreTest {
+
+    public static void main(String[] args) {
+        final int THREAD_COUNT = 30;
+        Semaphore s = new Semaphore(10);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+
+        for (int i = 0; i &lt; THREAD_COUNT; i++) {
+            executorService.submit(new WorkS(i, s));
         }
+
+        executorService.shutdown();
     }
-    return newTab;
+}
+
+#####################################################
+package multhread.util;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
+
+public class WorkS implements Callable {
+
+    int id;
+    Semaphore s;
+
+    public WorkS(int id,Semaphore s){
+        this.id=id;
+        this.s=s;
+    }
+
+    public Integer call() throws Exception {
+        s.acquire();//获取许可证
+        System.out.println(&quot;thread is &quot;+id);
+        s.release();//释放许可证
+        return id+1000;
+    }
+}</code></pre></li>
+</ul>
+<h4 id="Exchangger-交换数据"><a href="#Exchangger-交换数据" class="headerlink" title="Exchangger(交换数据)"></a>Exchangger(交换数据)</h4><ul>
+<li>提供一个同步点，两个线程在这个同步点进行交换数据，如果一个线程提前到达了同步点，那么他会等待另一个线程</li>
+</ul>
+<pre><code>package multhread.util;
+
+import java.util.concurrent.Exchanger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class ExchangerTest {
+
+    public static void main(String[] args) {
+        Exchanger&lt;Integer&gt; e = new Exchanger();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Future&lt;Integer&gt; future1 = executorService.submit(new WorkE(1, e));
+        Future&lt;Integer&gt; future2 = executorService.submit(new WorkE(2, e));
+
+        executorService.shutdown();
+    }
+}
+#####################################################
+package multhread.util;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Exchanger;
+
+public class WorkE implements Callable {
+
+    int id;
+    Exchanger&lt;Integer&gt; e;
+
+    public WorkE(int id,Exchanger e){
+        this.id=id;
+        this.e=e;
+    }
+
+    public Integer call() throws Exception {
+        Integer a=e.exchange(id);//将数据交给另一个线程，并获得对方提供的数据
+        System.out.println(&quot;thread is &quot;+id+&quot; print: &quot;+a);
+        return id+1000;
+    }
 }</code></pre>
           
         
@@ -1255,7 +1239,7 @@ final Node&lt;K,V&gt;[] resize() {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/HashMap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -1274,7 +1258,7 @@ final Node&lt;K,V&gt;[] resize() {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/20/HashMap/" itemprop="url">JAVA集合-HashMap</a></h1>
+                <a class="post-title-link" href="/2020/05/28/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/" itemprop="url">面经-教育-跟谁学</a></h1>
         
 
         <div class="post-meta">
@@ -1286,8 +1270,8 @@ final Node&lt;K,V&gt;[] resize() {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T13:42:23+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T15:56:39+08:00">
+                2020-05-28
               </time>
             
 
@@ -1309,8 +1293,8 @@ final Node&lt;K,V&gt;[] resize() {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/" itemprop="url" rel="index">
+                    <span itemprop="name">-面经 -教育 -跟谁学</span>
                   </a>
                 </span>
 
@@ -1348,218 +1332,103 @@ final Node&lt;K,V&gt;[] resize() {
       
         
           
-            <h2 id="HashMap的底层实现（源码分析）"><a href="#HashMap的底层实现（源码分析）" class="headerlink" title="HashMap的底层实现（源码分析）"></a>HashMap的底层实现（源码分析）</h2><p><strong>1. 数据结构</strong>  </p>
-<p>JDK1.7 : 数组+链表<br>JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）  </p>
-<p><strong>2. 源码分析</strong>  </p>
-<p>2.1 put(K,V)</p>
-<p>2.1.1 简介</p>
-<pre><code>public V put(K,V){
-    return putVal(hash(K),K,V,?,?)；//实际上调用的是putVal
-}
-
-//hash(K)：在K的hashCode基础上，保持高16位不变，新低16位=高16位^旧低16位
-static final int hash(Object key) {
-    int h;
-    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
-}
-
-//&gt;&gt;&gt;:符号位跟着移动的右移
-//hashCode()：Object的方法，而且是public native int hashCode();
-
-//putVal
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
-    //判断table是否为空，是则执行resize()
-
-    //当前桶位置是否为空，
-        //是：直接插入
-        //否：
-            //if key是否与头节点的key相同（hash相同 and equals) 直接替换
-            //else if 是树节点，红黑树插入
-            //else 链表插入（链表大小&gt;=8-1 : 链转树）
-    ++modCount;
-    //if 超出了阈值，扩容:resize()
-
-}
-
-//扩容
-final Node&lt;K,V&gt;[] resize() {
-    //计算新容量与新阈值
-
-    //将旧tab中的值复制到新的tab中
-    //挨个遍历桶
-        //当前桶中只有一个node,所以只需要计算新位置，放入新桶即可  新位置：hash值&amp;（新容量-1）= hash值 %（新容量-1）
-        //当前是红黑树
-        //当前是链表
-            根据(e.hash &amp; oldCap) == 0 和 (e.hash &amp; oldCap) == 1，分为了两部分处理
-
-
-    //返回新的table
-}</code></pre><p>2.1.2 详细</p>
-<pre><code>public V put(K,V){
-    return putVal(hash(K),K,V,?,?)
-}
-
-//hash(K)：在K的hashCode基础上，保持高16位不变，新低16位=高16位^旧低16位
-static final int hash(Object key) {
-    int h;
-    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
-}
-
-//&gt;&gt;&gt;:符号位跟着移动的右移
-//hashCode()：Object的方法，而且是public native int hashCode();
-
-//putVal
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
-    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
-    if ((tab = table) == null || (n = tab.length) == 0)//将table赋值给tab,如果tab为空，或者大小为0，则重新为tab开辟空间
-        n = (tab = resize()).length;
-
-    if ((p = tab[i = (n - 1) &amp; hash]) == null)//当前计算出的位置为null,直接放入即可
-        tab[i] = newNode(hash, key, value, null);
-    else {
-        Node&lt;K,V&gt; e; K k;
-        if (p.hash == hash &amp;&amp; ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))//hash值与p的hash完全相同，且key也相同：所以hashmap中判断两个key是否相同会先判断hash是否相同 且 使用 equals再判断下
-            e = p;
-        else if (p instanceof TreeNode)//树节点
-            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
-        else {//链表
-            for (int binCount = 0; ; ++binCount) {
-                if ((e = p.next) == null) {
-                    p.next = newNode(hash, key, value, null);
-                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st binCount &gt;= 8-1
-                        treeifyBin(tab, hash);//链转树
-                    break;
-                }
-                if (e.hash == hash &amp;&amp; ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))//key完全相同
-                    break;
-                p = e;
-            }
-        }
-        if (e != null) { // existing mapping for key
-            V oldValue = e.value;
-            if (!onlyIfAbsent || oldValue == null)
-                e.value = value;
-            afterNodeAccess(e);//钩子方法
-            return oldValue;
-        }
-    }
-    ++modCount;
-    if (++size &gt; threshold)//超出了阈值，扩容
-        resize();
-    afterNodeInsertion(evict);
-    return null;
-}
-
-//重置
-final Node&lt;K,V&gt;[] resize() {
-    Node&lt;K,V&gt;[] oldTab = table;
-    int oldCap = (oldTab == null) ? 0 : oldTab.length;
-    int oldThr = threshold;
-    int newCap, newThr = 0;
-    if (oldCap &gt; 0) {
-        if (oldCap &gt;= MAXIMUM_CAPACITY) {//已经达到了最大容量：1 &lt;&lt; 30，不再扩容，直接返回旧的table
-            threshold = Integer.MAX_VALUE;
-            return oldTab;
-        }else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp; oldCap &gt;= DEFAULT_INITIAL_CAPACITY)//二倍扩容后&lt;最大容量 &amp;&amp; 旧的容量&gt;=初始容量：1 &lt;&lt; 4
-            newThr = oldThr &lt;&lt; 1; //A:threshold=capacity*loadFactor 表示当HashMap的size大于threshold时会执行resize操作
-    }else if (oldThr &gt; 0) // 旧容量为0，且旧门限&gt;0,则 新容量=旧门限
-        newCap = oldThr;
-    else {               //旧容量=0 且 旧门限=0
-        newCap = DEFAULT_INITIAL_CAPACITY;
-        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+            <h2 id="面经一"><a href="#面经一" class="headerlink" title="面经一"></a>面经一</h2><h4 id="1、聊项目"><a href="#1、聊项目" class="headerlink" title="1、聊项目"></a>1、聊项目</h4><h4 id="2、线程池，怎么设定核心线程数"><a href="#2、线程池，怎么设定核心线程数" class="headerlink" title="2、线程池，怎么设定核心线程数"></a>2、线程池，怎么设定核心线程数</h4><p>ThreadPoolExecutor的第一个参数就是corePoolSize</p>
+<h4 id="3、用过线程同步工具类吗？"><a href="#3、用过线程同步工具类吗？" class="headerlink" title="3、用过线程同步工具类吗？"></a>3、用过线程同步工具类吗？</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/28/JAVA多线程-并发工具类/" target="_blank" rel="noopener">Java并发工具类</a></li>
+</ul>
+<h4 id="4、并行和并发的区别"><a href="#4、并行和并发的区别" class="headerlink" title="4、并行和并发的区别"></a>4、并行和并发的区别</h4><ul>
+<li><p>并行：同时执<strong>行</strong>（在多核CPU上才会出现）</p>
+</li>
+<li><p>并发：时间片轮转执行多个任务，由于处理速度很快，使得用户感觉好像在同时处理一样</p>
+</li>
+</ul>
+<h4 id="5、能不能自定义java-lang-String（背后想问类加载）"><a href="#5、能不能自定义java-lang-String（背后想问类加载）" class="headerlink" title="5、能不能自定义java.lang.String（背后想问类加载）"></a>5、能不能自定义java.lang.String（背后想问类加载）</h4><ul>
+<li><a href="https://blog.csdn.net/qq_38305457/article/details/103369283?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">能不能自定义java.lang.String</a></li>
+<li><strong>JVM自带的加载器（重要）：</strong><ul>
+<li>根加载器,Bootstrap :  <ul>
+<li>加载 jre\lib\rt.jar （包含了Object、String、Math等平时编写代码时 大部分的jdk API）；  </li>
+<li>也可以通过JVM参数-Xbootclasspath指定加载某一个jar扩展类加载器</li>
+</ul>
+</li>
+<li>Extension：<ul>
+<li>加载jre中lib\ext*.jar中的类 ;</li>
+<li>也可以通过JVM参数-Djava.ext.dirs指定加载某一个jar</li>
+</ul>
+</li>
+<li>AppClassLoader/SystemClassLoader，系统加载器（也称为应用加载器）：<ul>
+<li>加载classpath（通常程序中的src）；</li>
+<li>也可以通过JVM参数-Djava.class.path指定加载某一个类/jar</li>
+</ul>
+</li>
+<li>用户自定义的加载器都是抽象类java.lang.ClassLoader的子类，用于自定义加载</li>
+</ul>
+</li>
+<li><strong>个人看法：</strong><ul>
+<li>如果想这样做，两个办法：<ul>
+<li>破坏双亲委派模型</li>
+<li>直接替换jre\lib\rt.jar中的java.lang.String部分</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="6、异常分类及处理"><a href="#6、异常分类及处理" class="headerlink" title="6、异常分类及处理"></a>6、异常分类及处理</h4><ul>
+<li><a href="https://www.cnblogs.com/niceyoo/p/10585459.html" target="_blank" rel="noopener">异常分类及处理</a></li>
+</ul>
+<h4 id="7、Java-容器有哪些，来自同一个父类吗？"><a href="#7、Java-容器有哪些，来自同一个父类吗？" class="headerlink" title="7、Java 容器有哪些，来自同一个父类吗？"></a>7、Java 容器有哪些，来自同一个父类吗？</h4><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/41260780" target="_blank" rel="noopener">集合分类</a>  </li>
+<li>Collection<ul>
+<li>List: ArrayList,LinkedList,Stack</li>
+<li>Set: HashSet,TreeSet</li>
+<li>Queue: PriorityQueue</li>
+</ul>
+</li>
+<li>Map: HashMap,TreeMap</li>
+</ul>
+<h4 id="8、arraylist初始值，怎么扩容"><a href="#8、arraylist初始值，怎么扩容" class="headerlink" title="8、arraylist初始值，怎么扩容"></a>8、arraylist初始值，怎么扩容</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/20/ArrayList/" target="_blank" rel="noopener">ArrayList</a></li>
+<li>先确定容量（需要扩容就扩容），然后再添加元素</li>
+<li>DEFAULT_CAPACITY = 10  </li>
+<li>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);//1.5倍扩容</li>
+</ul>
+<h4 id="9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）"><a href="#9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）" class="headerlink" title="9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）"></a>9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）</h4><ul>
+<li><p><a href="https://blog.csdn.net/weixin_40569991/article/details/88639456" target="_blank" rel="noopener">快速失败(fail-fast)和安全失败(fail-safe)</a></p>
+</li>
+<li><p>不可以，增强for本质上使用的就是迭代器</p>
+<pre><code>//快速失败fail-fast
+private static void iteratorTest(){
+    LinkedList&lt;Integer&gt; linkedList=new LinkedList&lt;Integer&gt;();
+    for(int i=0;i&lt;10;i++){
+        linkedList.add(i);
     }
 
-
-    if (newThr == 0) {//应该是处理A处出现左移后变为0的情况
-        float ft = (float)newCap * loadFactor;
-        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
-                  (int)ft : Integer.MAX_VALUE);
+    for(Integer i:linkedList){
+        System.out.println(i);
+        linkedList.removeFirst();
     }
-    threshold = newThr;
-    @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
-    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
-    table = newTab;
-
-    //将旧tab中的值复制到新的tab中
-    if (oldTab != null) {
-        for (int j = 0; j &lt; oldCap; ++j) {
-            Node&lt;K,V&gt; e;
-            if ((e = oldTab[j]) != null) {
-                oldTab[j] = null;
-                if (e.next == null)//当前桶中只有一个node,所以只需要计算新位置，放入新桶即可
-                    newTab[e.hash &amp; (newCap - 1)] = e;//新位置：hash值&amp;（新容量-1）= hash值 %（新容量-1）
-                else if (e instanceof TreeNode)//当前是红黑树
-                    ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
-                else { //当前是链表
-                    Node&lt;K,V&gt; loHead = null, loTail = null;
-                    Node&lt;K,V&gt; hiHead = null, hiTail = null;
-                    Node&lt;K,V&gt; next;
-                    do {
-                        next = e.next;
-                        if ((e.hash &amp; oldCap) == 0) {//说明hash值&amp;（新容量-1）&lt; oldCap
-                            if (loTail == null)
-                                loHead = e;
-                            else
-                                loTail.next = e;//尾插法
-                            loTail = e;
-                        }
-                        else {//说明hash值&amp;（新容量-1）&gt; oldCap
-                            if (hiTail == null)
-                                hiHead = e;
-                            else
-                                hiTail.next = e;
-                            hiTail = e;
-                        }
-                    } while ((e = next) != null);
-
-                    if (loTail != null) { 
-                        loTail.next = null;
-                        newTab[j] = loHead;
-                    }
-                    if (hiTail != null) {
-                        hiTail.next = null;
-                        newTab[j + oldCap] = hiHead;
-                    }
-                }
-            }
-        }
-    }
-    return newTab;
-}</code></pre><p>2.2 get(K)</p>
-<p>2.2.1 简介  </p>
-<pre><code>public V get(Object key) {
-    Node&lt;K,V&gt; e;
-    return (e = getNode(hash(key), key)) == null ? null : e.value;//实际上是在调用getNode(hash(K), K))
 }
+#################################
+内部有个modCount（集合中元素的个数）,在迭代的过程中一旦发现modCount改变了，就会抛出如下异常
+Exception in thread &quot;main&quot; java.util.ConcurrentModificationException
+    at java.util.LinkedList$ListItr.checkForComodification(LinkedList.java:966)
+    at java.util.LinkedList$ListItr.next(LinkedList.java:888)
+    at set.SetTest.iteratorTest(SetTest.java:47)
+    at set.SetTest.main(SetTest.java:11)
+#################################
+分析上述的堆栈信息，可以推断在执行next()时，会先执行checkForComodification()检查modCount是否改变了</code></pre></li>
+</ul>
+<h4 id="10、怎么写一个函数式接口"><a href="#10、怎么写一个函数式接口" class="headerlink" title="10、怎么写一个函数式接口"></a>10、怎么写一个函数式接口</h4><ul>
+<li><a href="https://www.cnblogs.com/weixuqin/p/11494894.html" target="_blank" rel="noopener">函数式接口</a></li>
+</ul>
+<h4 id="11、Stream怎么把二维数组变一维"><a href="#11、Stream怎么把二维数组变一维" class="headerlink" title="11、Stream怎么把二维数组变一维"></a>11、Stream怎么把二维数组变一维</h4><h4 id="12、Spring-IOC容器"><a href="#12、Spring-IOC容器" class="headerlink" title="12、Spring IOC容器"></a>12、Spring IOC容器</h4><ul>
+<li><a href="https://www.cnblogs.com/superjt/p/4311577.html" target="_blank" rel="noopener"><strong>IOC原理与依赖注入</strong></a></li>
+</ul>
+<h4 id="13、Spring-依赖注入"><a href="#13、Spring-依赖注入" class="headerlink" title="13、Spring 依赖注入"></a>13、Spring 依赖注入</h4><p>【个人感觉是想问循环依赖如何解决】【待做】</p>
+<h4 id="14、left-join语句的作用，后面on和where的区别"><a href="#14、left-join语句的作用，后面on和where的区别" class="headerlink" title="14、left join语句的作用，后面on和where的区别"></a>14、left join语句的作用，后面on和where的区别</h4><ul>
+<li><a href="https://www.cnblogs.com/yyxz/p/3812499.html" target="_blank" rel="noopener">left join语句的作用，后面on和where的区别</a></li>
+</ul>
+<p>算法题：int反转（因为好多都不会，所以就贼简单的题）</p>
 
-final Node&lt;K,V&gt; getNode(int hash, Object key) {
-    //先判断是否为桶的首节点，是直接返回
-        //判断是否为树节点
-            //在链表中找
-    return null;
-}</code></pre><p>2.2.2 详细  </p>
-<pre><code>public V get(Object key) {
-    Node&lt;K,V&gt; e;
-    return (e = getNode(hash(key), key)) == null ? null : e.value;//实际上是在调用getNode(hash(K), K))
-}
-
-final Node&lt;K,V&gt; getNode(int hash, Object key) {
-    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
-    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp; (first = tab[(n - 1) &amp; hash]) != null) {
-        if (first.hash == hash &amp;&amp; ((k = first.key) == key || (key != null &amp;&amp; key.equals(k)))) //为桶的首节点
-            return first;
-        if ((e = first.next) != null) {
-            if (first instanceof TreeNode) //红黑树
-                return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
-            do { //链表中找
-                if (e.hash == hash &amp;&amp;
-                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
-                    return e;
-            } while ((e = e.next) != null);
-        }
-    }
-    return null;
-}</code></pre>
           
         
       
@@ -1607,7 +1476,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/23/Linux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -1626,7 +1495,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/20/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2020/05/23/Linux/" itemprop="url">Linux</a></h1>
         
 
         <div class="post-meta">
@@ -1638,8 +1507,296 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T11:00:00+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-23T15:58:25+08:00">
+                2020-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">-Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h2><h3 id="mkdir-创建目录"><a href="#mkdir-创建目录" class="headerlink" title="mkdir: 创建目录"></a>mkdir: 创建目录</h3><ul>
+<li>-p : 递归的创建目录 也就是可以创建多层目录  </li>
+<li>一次创建多个目录： mkdir {a,b,c,d,e,f}，一次创建 a b c d e f多个目录  </li>
+</ul>
+<h3 id="rmdir：删除一个空文件夹"><a href="#rmdir：删除一个空文件夹" class="headerlink" title="rmdir：删除一个空文件夹"></a>rmdir：删除一个空文件夹</h3><h3 id="cp：复制文件或者文件夹"><a href="#cp：复制文件或者文件夹" class="headerlink" title="cp：复制文件或者文件夹"></a>cp：复制文件或者文件夹</h3><ul>
+<li>-a =-pdr</li>
+<li>-p 同时复制文件属性，比如修改日期</li>
+<li>-d 复制时保留文件链接</li>
+<li>-r: 复制文件夹时,递归复制子文件夹</li>
+<li>-l 不复制，而是创建指向源文件的链接文件，链接文件名由目标文件给出。   </li>
+<li>note:可以在拷贝的同时重命名</li>
+</ul>
+<h3 id="mv：移动文件或者文件夹，可以在移动的时候重命名"><a href="#mv：移动文件或者文件夹，可以在移动的时候重命名" class="headerlink" title="mv：移动文件或者文件夹，可以在移动的时候重命名"></a>mv：移动文件或者文件夹，可以在移动的时候重命名</h3><h3 id="rm-：删除文件或者文件夹"><a href="#rm-：删除文件或者文件夹" class="headerlink" title="rm ：删除文件或者文件夹"></a>rm ：删除文件或者文件夹</h3><ul>
+<li>-r：递归删除</li>
+<li>-f：强制删除 即没有提醒</li>
+</ul>
+<h2 id="文件处理命令"><a href="#文件处理命令" class="headerlink" title="文件处理命令"></a>文件处理命令</h2><h3 id="ls-查看文件"><a href="#ls-查看文件" class="headerlink" title="ls :查看文件"></a>ls :查看文件</h3><p>　　-l 以列表形式查看<br>　　-h 以一种人性化的方式查看，也是文件的大小以合适的单位显示<br>　　-a 查看所有文件，包括隐藏文件<br>　　-i 显示出文件的i节点号<br>touch 文件名：创建文件 可以一次创建多个文件，以空格隔开</p>
+<p>cat :查看文件内容<br>　　-n:带行号<br>tac:反向显示文件内容</p>
+<p>more：分页查看文件内容<br>　　进入浏览模式后：<br>　　f或者空格：下一页<br>　　enter：一行一行往下翻<br>　　q:退出</p>
+<p>less:查看文件内容<br>　　空格翻页<br>　　回车换行<br>　　pageup：上一页<br>　　pagedown：下一页<br>　　上箭头：向上翻<br>　　下箭头：向下翻<br>　　/搜索词 n向下找</p>
+<p>head -n 文件名 :查看文件前n行。缺省-n显示前10行<br>tail -n 文件名 ：查看文件的末尾几行<br>　　-f :动态显示文件末尾内容</p>
+<p>ln:链接命令<br>　　-s创建软连接<br>　　硬链接和cp -p的区别是硬链接会同步更新<br>　　源文件如果丢失，硬链接依然存在。<br>　　硬链接和源文件的i节点相同。<br>　　硬链接不能夸分区，软连接可以跨分区。<br>　　硬链接不可以链接目录，链接可以<br>　　软连接文件具有的权限是ugo都是rwx</p>
+<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><h3 id="useradd-添加用户"><a href="#useradd-添加用户" class="headerlink" title="useradd: 添加用户"></a>useradd: 添加用户</h3><ul>
+<li>useradd 用户名</li>
+</ul>
+<h3 id="passwd-修改用户密码"><a href="#passwd-修改用户密码" class="headerlink" title="passwd: 修改用户密码"></a>passwd: 修改用户密码</h3><ul>
+<li>passwd 用户名 不加用户名直接更改自己的密码  </li>
+</ul>
+<h3 id="who-查看当前的账户"><a href="#who-查看当前的账户" class="headerlink" title="who:查看当前的账户"></a>who:查看当前的账户</h3><ul>
+<li><p>显示的格式为： 登录用户名 登录终端（tty:本地登录 pts:远程终端） 登录时间 ip地址</p>
+</li>
+<li><p>w:查看更详细的用户登录信息。</p>
+</li>
+</ul>
+<h2 id="权限管理命令"><a href="#权限管理命令" class="headerlink" title="权限管理命令"></a>权限管理命令</h2><h3 id="chown-更改文件所有者，只有root可以更改"><a href="#chown-更改文件所有者，只有root可以更改" class="headerlink" title="chown:更改文件所有者，只有root可以更改"></a>chown:更改文件所有者，只有root可以更改</h3><ul>
+<li>例：chown root a.txt //把a.txt更改为root所有</li>
+</ul>
+<h3 id="chgrp-更改所属组"><a href="#chgrp-更改所属组" class="headerlink" title="chgrp:更改所属组"></a>chgrp:更改所属组</h3><ul>
+<li>chgrp lambrother fengjie //把fengjie的所属组更改为lambrother</li>
+</ul>
+<h3 id="chmod-修改文件或目录的权限，只有root和所有者可以更改"><a href="#chmod-修改文件或目录的权限，只有root和所有者可以更改" class="headerlink" title="chmod:修改文件或目录的权限，只有root和所有者可以更改"></a>chmod:修改文件或目录的权限，只有root和所有者可以更改</h3><ul>
+<li><p>文件所属用户 文件所属组 其他用户 [文件或目录] </p>
+</li>
+<li><p>-R 递归修改</p>
+</li>
+<li><p>权限的数字表示：<br>　　r-&gt;4<br>　　w-&gt;2<br>　　x-&gt;1</p>
+</li>
+<li><p>例： chmod -R 777 testdir //把目录和下面所有文件的权限  </p>
+</li>
+</ul>
+<p>　　　　　　　　　　　　针对文件　　 　　　　 针对目录<br>　　　　r　　 读权限 　　 可以查看文件内容　　  可以列出目录中的内容<br>　　　　w 　  写权限 　　 可以修改文件内容 　　 可以在目录中创建、删除文件<br>　　　　x 　   执行权限     可以执行文件 　　　　 可以进入目录  </p>
+<h3 id="umask-S-查看创建文件的缺省权限，即默认权限"><a href="#umask-S-查看创建文件的缺省权限，即默认权限" class="headerlink" title="umask -S:查看创建文件的缺省权限，即默认权限"></a>umask -S:查看创建文件的缺省权限，即默认权限</h3><h3 id="umask-023-修改文件的缺省权限为777-023-754。即rwxr-xr–"><a href="#umask-023-修改文件的缺省权限为777-023-754。即rwxr-xr–" class="headerlink" title="umask 023:修改文件的缺省权限为777-023=754。即rwxr-xr–"></a>umask 023:修改文件的缺省权限为777-023=754。即rwxr-xr–</h3><p>=====================文件搜索命令========================================<br>find:搜索制定范围内的文件<br>　　find [搜索范围] [匹配条件]<br>　　-name 按文件名搜索<br>　　-iname 根据文件名查找，不区分大小写<br>　　-size +n大于 -n小于 n等于 这个n是数据块，在Linux中一个数据块是512字节大小<br>　　-user 根据所有者查找<br>　　-group 根据所属组查找<br>　　根据文件属性查找：<br>　　　　-amin 访问时间 access<br>　　　　-cmin 根据文件属性被修改的时间 change<br>　　　　-mmin 根据文件内容被修改的时间 modify<br>　　例： find /etc -cmin -5 :查找/etc目录下五分钟内被修改过属性的文件和目录</p>
+<p>　　-a 两个条件同时满足<br>　　　　find /etc -size +10 -a -size -50<br>　　-o 两个条件满足一个即可</p>
+<p>　　-type<br>　　　　f 文件 d 目录 l软连接文件<br>　　-inum 根据i节点查找</p>
+<p>　　对找到的结果进行操作<br>　　　　-exec或者-ok 命令 {} ;<br>　　　　例如：<br>　　　　　　find /etc -name init* -exec ls -l {} ; 对找到的文件名按列表查看</p>
+<p>　　find /etc -name init :搜索目录/etc下面所有的init文件，精确匹配，包括子目录中的init文件<br>　　find / -size +204800 搜索大于100M的文件</p>
+<p>locate:(查找速度非常快，因为它维护了一个文件库。缺点就是新建立的文件没有很快收录到文件库)<br>　　locate 文件名<br>　　updatedb 更新locate的文件资料库 文件资料库不收录/tmp下的文件<br>　　-i 不区分大小写</p>
+<p>which :查找命令的目录以及别名<br>　　which 命令</p>
+<p>whereis :搜索命令所在目录及帮助文档路径。</p>
+<p>grep:在文件中搜寻字符串匹配的行并输出，多个文件以空格隔开。<br>　　-i不区分大小写<br>　　-v排除指定字符串<br>　　-E 以正则表达式的方式搜索<br>　　-F 以普通文本的方式搜索<br>　　-n 显示搜索到的内容在文件中的行号。</p>
+<p>==================帮助命令======================<br>man：查看命令或者配置文件的帮助信息<br>　　man 命令/配置文件<br>　　在手册里面，可以输入/要查找的str<br>　　man ls<br>　　man services<br>　　man fstab //直接输入配置文件的名字，而不需要使用绝对路径 重点查看name选项和配置文件的格式。<br>　　如果一个命令即使命令又是配置文件，那么可以使用一个序号进行区分，比如：<br>　　man 1 passwd 查看命令passwd的帮助<br>　　man 5 passwd 查看配置文件passwd的帮助</p>
+<p>whatis 命令：得到命令的简要信息</p>
+<p>apropos 配置文件名：查看配置文件的简短信息</p>
+<p>命令 –help：查看命令的选项。</p>
+<p>help 命令：查看shell内置命令的帮助信息。 shell内置命令是没有命令路径。不能使用man查看帮助。</p>
+<p>=====================================压缩解压缩命令============================<br>.gz格式<br>　　压缩：gzip 文件名 只能压缩文件不能压缩目录，压缩完源文件也不见了<br>　　解压缩：gunzip/gzip -d 压缩包名称</p>
+<p>tar:<br>　　-zcvf 压缩后文件名 打包的目录 :生成.tar.gz文件 注：这个命令先用tar归档，然后把归档的包压缩成.gz<br>　　-zxvf 要解压的文件名 ：解压缩.tar.bz2的文件</p>
+<p>　　-jcvf 压缩后的文件名 打包的目录：生成.tar.bz2 注：这个命令先用tar归档，然后把归档的包压缩成.bz2<br>　　-jxvf 要解压的文件名 :解压.tar.bz2的文件</p>
+<p>zip:<br>　　zip -r 压缩生成的文件名 要压缩的目录<br>　　zip 压缩生成的文件名 要压缩的文件。</p>
+<p>unzip:<br>　　unzip 要解压缩的文件</p>
+<p>bzip2:<br>　　bzip2 -k 要压缩的文件名 -k选项：保留源文件<br>　　bunzip2 -k 要解压的文件名 -k选项：保留压缩包</p>
+<p>===============网络命令==========================<br>write:给在线用户发送信息，用户不在线不行。以Ctrl+D保存<br>　　write 用户名</p>
+<p>wall:给所有用户名发送信息<br>　　wall 要发送的信息</p>
+<p>ping:测试网络连通性</p>
+<p>　　ping ip地址<br>　　-c 要ping的次数</p>
+<p>ifconfig:<br>　　直接回车查看当前网卡信息<br>　　ifconfig 网卡名 ip地址 临时修改网络ip<br>　　　　ifconfig th0:0 192.168.1.100 netmask 255.255.255.0<br>　　　　　　给th0这个网卡新添加一个ip<br>　　　　ifconfig eth0:0 down<br>　　　　ifconfig eth0:0 up<br>ifdown th0<br>　　禁用th0这块网卡</p>
+<p>ifup th0<br>　　开启th0这块网卡</p>
+<p>mail:邮件命令<br>　　mail 要发送的用户名<br>　　mail 直接回车：查看命令<br>　　　　help :查看支持的命令格式<br>　　　　输入序列号：查看邮件详细内容<br>　　　　h: 回到邮件列表<br>　　　　d 序列号：删除序列号对应的邮件</p>
+<p>last:统计计算机所有用户登录的时间信息，以及重启信息<br>lastlog:所有用户最后一次登录的时间<br>　　-u 用户的uid 查看指定用户的登录信息。</p>
+<p>traceroute:显示数据包到主机间的路径<br>　　traceroute 要探测的地址.<br>　　-n 使用ip而不使用域名</p>
+<p>nslookup <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>　　查看百度的ip地址</p>
+<p>netstat:显示网络相关信息<br>　　-t :tcp协议<br>　　-u :udp协议<br>　　-l:监听<br>　　-r:路由<br>　　-n:显示ip地址和端口号</p>
+<p>　　netstat -tlun:查看本机监听的端口<br>　　netstat -an:查看所有的监听信息<br>　　netstat -rn ：查看路由表，即网管</p>
+<p>wget 文件地址<br>　　下载文件</p>
+<p>service network restart:重启网络服务。</p>
+<p>telnet 域名或ip<br>　　远程管理与端口探测<br>　　如： telnet 192.168.2.3:80<br>　　　　探测192.168.2.3是否开启了80端口</p>
+<p>mount:挂在命令<br>　　mount -t iso9660 /dev/sr0 /mnt/cdrom :把sr0挂在到cdrom</p>
+<p>==============关机重启命令====================</p>
+<p>shutdown:这个关机命令更安全一些，不推荐使用其他关机命令。<br>　　-h：关机<br>shutdown -h now shutdown -h 20:30<br>　　-r:重启<br>shutdown -r now<br>　　-c:取消上次的关机命令</p>
+<p>重启：<br>　　init 6<br>　　reboot</p>
+<p>关机：<br>　　init 0<br>　　poweroff</p>
+<p>　　系统运行级别：<br>　　　　0 关机<br>　　　　1 单用户 类似windows安全模式<br>　　　　2 不完全多用户，不含nfs服务<br>　　　　3 完全多用户<br>　　　　4 未分配<br>　　　　5 图形界面<br>　　　　6 重启<br>　　可以通过查看/etc/inittab来查看系统启动的运行级别<br>　　runlevel:查看当前的运行级别<br>　　init n:设置系统运行级别</p>
+<p>logout:退出当前用户，返回到登录界面</p>
+<p>==============其他小技巧==========<br>\命令名字 :使用原始的命令<br>　　比如：<br>　　　　ls 实际上是ls –color auto<br>　　　　\ls 就是原始的ls</p>
+<p>=============================================<br>一、软件包分类<br>　　源码包<br>　　　　脚本安装包<br>　　特点：<br>　　　　1. 开源<br>　　　　2. 可以自由选择所需的功能<br>　　　　3. 软件是编译安装，所以更加适合自己的系统，更加稳定也效率更高<br>　　　　4. 卸载方便，即可以直接删除文件夹。<br>　　缺点：<br>　　　　1. 安装过程步骤较多，尤其安装较大的软件集合时，容易出现错误<br>　　　　2. 编译时间较长，安装毕二进制安装时间长<br>　　　　3. 因为是编译安装，安装过程中一旦报错新手很难解决</p>
+<p>　　二进制包(RPM包、系统默认包)<br>　　　　优点：<br>　　　　　　1. 包管理系统简单，只通过几个命令就可以实现包的安装、升级、查询和卸载<br>　　　　　　2. 安装速度比源码包安装快的多<br>　　　　缺点：<br>　　　　　　1. 经过编译，不再可以看到源代码<br>　　　　　　2. 功能选择不如源码包灵活<br>　　　　　　3. 依赖性</p>
+<p>=============rpm命令管理-包命名与依赖性=======================================</p>
+<ol>
+<li>RPM包命名原则<br>　　httpd-2.2.15-15.el6.centos.l.i686.rpm<br>　　　　httpd 软件包名<br>　　　　2.2.15 软件版本<br>　　　　15 软件发布的次数<br>　　　　el6.centos 适合的Linux平台<br>　　　　i686 适合的硬件平台<br>　　　　rpm rpm包扩展名<br>　　　　如果名字里有noarch,则表示所有平台都可以。</li>
+</ol>
+<p>2、 rpm包依赖性<br>　　　　树形依赖： a-&gt;b-&gt;c 从后往前安装所依赖的包。<br>　　　　环形依赖： a-&gt;b-&gt;c-&gt;a 解决办法：一次性安装三个包<br>　　　　模块依赖：模块依赖查询网站 ：<a href="http://www.rpmfind.net" target="_blank" rel="noopener">www.rpmfind.net</a> 一般以.so.数字结尾的依赖包，是库依赖包，只需要安装包括这个库的软件就可以自动安装好这个所需的库依赖包</p>
+<p>包全名：操作的包是没有安装的软件包时，使用包全名，而且要注意路径。安装、升级时用<br>包名 ：操作已经安装的软件包时，使用包名。是搜索/var/lib/rpm中的数据库。一般查询，卸载时用</p>
+<ol start="3">
+<li><p>rpm安装：<br>　　rpm-ivh 包全名<br>　　　　-i(install) 安装<br>　　　　-v(verbose) 显示详细信息<br>　　　　-h(hash) 显示进度<br>　　　　–nodeps 不检测依赖性 一般都必须要检测</p>
+</li>
+<li><p>rpm包升级：<br>　　rpm -Uvh 包全名<br>　　　　-U(upgrade) 升级<br>　　　　-h</p>
+</li>
+<li><p>rpm -e 包名<br>　　-e(erase) 卸载<br>　　–nodeps 不检查依赖性</p>
+</li>
+<li><p>查询是否安装<br>　　rpm - q 包名 :查询包是否安装<br>　　　　-q(query) 查询<br>　　　　-a(all) 所有<br>　　　　-i(information) 查询软件信息<br>　　　　-p(package) 查询未安装包信息<br>　　rpm -ql 包名：查询包中文件安装位置(list) 注：包的安装路径在包生成的时候就确定了<br>　　rpm -qlp 包全名：查询未安装包安装时会安装在哪里。<br>　　rpm -qf 系统文件名 ：查询系统文件属于哪个rpm包 注：系统文件名必须是通过安装哪个包生成的文件<br>　　　　-f:查询系统文件属于哪个包<br>　　rpm -qR 包名 查询已安装软件包的依赖性<br>　　　　-r: 查询软件包的依赖性(requires)<br>　　rpm -qRp:查询未安装包的依赖性<br>　　　　-p: 查询未安装包的依赖性</p>
+</li>
+</ol>
+<p>　　　　例如：<br>　　　　　　rpm -qa | grep httpd 查询所有Apache的包</p>
+<ol start="7">
+<li><p>rpm包校验<br>　　rpm -V 已安装的包名 ：如果没有提示则表示没有被修改过<br>　　　　-V 校验指定rpm包中的文件(verify)<br>　　　　校验值的含义：<br>　　　　　　S:文件大小是否改变<br>　　　　　　M:文件的类型或文件的权限(rwx)是否被改变<br>　　　　　　5：文件MD5校验和是否改变(可以看成文件内容是否改变)<br>　　　　　　D:设备的中，从代码是否改变<br>　　　　　　L:文件路径是否改变<br>　　　　　　U:文件的属主(所有者)是否改变<br>　　　　　　G:文件的属组是否改变<br>　　　　　　T:文件的修改时间是否改变</p>
+</li>
+<li><p>rpm包中文件提取：<br>　　rpm2cpio 包全名 | <br>　　cpio -div .文件绝对路径</p>
+</li>
+</ol>
+<p>　　rpm2cpio:讲rpm包转换为cpio格式的命令<br>　　\表示命令没有输完,在下一行继续输入<br>　　cpio:是一个标准工具，它用于创建软件档案文件和从档案文件中提取文件<br>　　cpio 选项 &lt;[文件|设备]<br>　　　　-i copy-in模式，还原<br>　　　　-d:还原时自动新建目录<br>　　　　-v:显示还原过程</p>
+<p>　　例如：<br>　　　　rpm -qf /bin/ls #查看ls命令属于哪个包<br>　　　　mv /bin/ls /tmp #将ls命令移走<br>　　　　rpm2cpio /mnt/cdrom/Packages/coreutils-8.4-19.el6.i686.rpm | cpio -idv ./bin/ls #提取rpm保重ls命令到当前目录的/bin/ls下<br>　　　　cp /root/bin/ls /bin/ #把ls命令复制到/bin/目录，修复文件丢失</p>
+<h2 id="yum在线管理："><a href="#yum在线管理：" class="headerlink" title="yum在线管理："></a>yum在线管理：</h2><h3 id="一、-ip地址配置"><a href="#一、-ip地址配置" class="headerlink" title="一、 ip地址配置"></a>一、 ip地址配置</h3><p>第1步：setup:使用图形界面配置ip地址<br>第2步：vi/etc/sysconfig/network-scripts/ifcfg-eth0 把ONBOOT=”no”改为ONBOOT=”yes” #启动网卡<br>第3步：service network restart :重新启动网络服务。</p>
+<h3 id="二、网络yum源"><a href="#二、网络yum源" class="headerlink" title="二、网络yum源"></a>二、网络yum源</h3><h4 id="1-yum源位置：-etc-yum-repos-d-CentOS-Base-repo-这个是默认的网络yum源"><a href="#1-yum源位置：-etc-yum-repos-d-CentOS-Base-repo-这个是默认的网络yum源" class="headerlink" title="1. yum源位置：/etc/yum.repos.d/CentOS-Base.repo,这个是默认的网络yum源"></a>1. yum源位置：/etc/yum.repos.d/CentOS-Base.repo,这个是默认的网络yum源</h4><p>　　[base]    容器名称，一定要放在[]中<br>　　name  容器说明，可以自己随便写<br>　　mirrorlist    镜像站点，这个可以注释掉<br>　　baseurl   我们的yum源服务器的地址，默认是CentOS官方的yum源服务器，是可以使用的，如果你觉得慢可以改成你喜欢的yum源地址<br>　　enabled   此容器是否生效，如果不写或写成enable=1都是生效，写成enable=0就是不生效<br>　　gpgcheck  如果是1是指rpm的数字证书生效，如果是0则不生效<br>　　gpgkey    数字证书的公钥文件保存位置。不用修改。  </p>
+<h4 id="2-yum命令"><a href="#2-yum命令" class="headerlink" title="2. yum命令"></a>2. yum命令</h4><p>　　yum list :获取服务器上所有可用的软件的列表<br>　　yum search 关键字：搜索服务器上所有和关键字相关的包<br>　　yum -y install 包名：安装软件包<br>　　　　install:安装<br>　　　　-y:自动回答yes<br>　　yum -y update 包名：升级软件包<br>　　　　update:升级<br>　　　　-y:自动回答yes<br>　　　　如果没有包名，就会升级所有的软件包，包括Linux内核。慎用<br>　　yum -y remove 包名<br>　　　　remove:卸载<br>　　　　-y:自动回答yes<br>　　　　注：yum会自动卸载依赖包，而很有可能这个依赖包也被别的包依赖，所以很危险，慎用。  </p>
+<p>　　yum grouplist:列出所有可用的软件组列表<br>　　yum groupinstall 软件组名：安装指定软件组，组名可以由grouplist查询出来 注：如果查询出来的软件组名中间有空格，要使用””引起来。<br>　　yum groupremove 软件组名：卸载指定软件组  </p>
+<h4 id="3-光盘yum源"><a href="#3-光盘yum源" class="headerlink" title="3. 光盘yum源"></a>3. 光盘yum源</h4><p>　　1) 挂在光盘 mount /dev/sr0 /mnt/cdrom<br>　　2) 让网络yum源文件失效<br>　　　　cd /etc/yum.repos.d/<br>　　　　mv CentOS-Base.repo CentOS-Base.repo.bak<br>　　　　mv CentOS-Debuginfo.repo CentOS-Debuginfo.repo.bak<br>　　　　mv Centos-Vault.repo Centos-Vault.repo.bak<br>　　3) 修改光盘yum源文件<br>　　　　vim CentOS-Media.repo<br>　　　　[c6-media]<br>　　　　name=CentOS-$releaserver -Media<br>　　　　baseurl=file:///mnt/cdrom<br>　　　　#地址为你自己的光盘挂载地址<br>　　　　#   file:///media/cdrom/<br>　　　　#   file:///media/cdrecorder/<br>　　　　#注释这两个不存在的地址<br>　　　　gpgcheck=1<br>　　　　enabled=1 #把enabled=0改为enabled=1，让这个yum配置文件生效<br>　　　　gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6  </p>
+<p>　　　　注意：注释配置行的时候，#符号一定要写在开头，不要随便在配置文件某一行后面加注释，也不要随便加空格。  </p>
+<p>源码包管理<br>　　1. 区别<br>　　　　安装之前的区别：概念上的区别<br>　　　　安装之后的区别：安装位置不同</p>
+<p>　　2. rpm包安装位置(大多数)<br>　　　　/etc/   配置文件安装目录<br>　　　　/usr/bin/   可执行的命令安装目录<br>　　　　/usr/lib/   程序所使用的函数库保存位置<br>　　　　/usr/share/doc  软件的基本使用书册保存位置<br>　　　　/usr/share/man/ 帮助文件保存位置<br>　　3. 源码包安装位置<br>　　　　安装在指定位置当中，一般是<br>　　　　/usr/local/软件名/<br>　　4. 安装位置不同带来的影响<br>　　　　rpm包安装的服务可以使用系统服务管理命令(service)来管理<br>　　　　例如rpm包安装的Apache的启动方法是：<br>　　　　/etc/rc.d/init.d/httpd start 注：服务的安装路径一般在：/etc/rc.d/init.d下<br>　　　　service httpd start 注：service命令是红帽的专用命令,只能管理rpm包安装的服务<br>源码包安装过程<br>　　1. 安装准备<br>　　　　安装C语言编译器 gcc<br>　　　　下载源码包<br>　　　　<a href="http://mirror.bit.edu.cn/apach/httpd/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/apach/httpd/</a><br>　　2. 安装注意事项<br>　　　　源代码保存位置：/usr/local/src/<br>　　　　软件安装位置： /usr/local/<br>　　　　如何确定安装过程报错：<br>　　　　　　安装过程停止并出现error、warning或no的提示<br>　　3. 源码包安装过程<br>　　　　1)下载源码包<br>　　　　2)解压缩下载的源码包<br>　　　　3)进入解压缩目录 注：里面有个INSTALL是系统安装的步骤说明<br>　　　　4)./configure 软件配置与检查<br>　　　　　　定义需要的功能选项<br>　　　　　　检测系统环境是否符合安装要求<br>　　　　　　把定义好的功能选项和检测系统环境的信息都写入Makefile文件，用于后续的编辑。<br>　　　　./configure –prefix=/usr/local/apache2 ：定义安装位置<br>　　　　5)make :编译<br>　　　　　　如果前面有错误，则使用make clean命令清楚编译产生的临时文件<br>　　　　6)make install:编译安装<br>　　4. 源码包的卸载<br>　　　　不需要卸载命令，直接删除安装目录即可。不会遗留任何垃圾文件</p>
+<p>脚本安装<br>　　1. 脚本安装包<br>　　　　脚本安装包并不是独立的软件包类型，常见安装的是源码包<br>　　　　是人为把安装过程写成了自动安装的脚本，只要执行脚本，定义简单的参数，就可以完成安装<br>　　　　非常类似于windows下软件的安装方式<br>　　2. Webmin的作用<br>　　　　Webmin是一个基于web的Linux系统管理界面，你就可以通过图形化的方式<br>　　　　设置用户账号、Apache，DNS、文件共享等服务。<br>　　3、 webmin安装过程<br>　　　　1) 下载软件<br>　　　　　　http;//sourceforge.net/projects/webadmin/files/webmin/<br>　　　　2) 解压缩，并进入解压缩目录<br>　　　　3) 执行安装脚本 ./setup.sh</p>
+<p>其他命令</p>
+<p>du -sh 文件名</p>
+<p>ps 静态查看系统进程，系统默认安装<br>　　ps -aux 使用BSD语法查看所有进程<br>　　ps -ef 标准语法查看所有进程<br>　　　　UID 程序被该 UID 所拥有<br>　　　　PID 就是这个程序的 ID<br>　　　　PPID 则是其上级父程序的ID<br>　　　　C CPU 使用的资源百分比<br>　　　　STIME 系统启动时间<br>　　　　TTY 登入者的终端机位置<br>　　　　TIME 使用掉的 CPU 时间。<br>　　　　CMD 所下达的指令为何<br>　　ps -aux –sort -pcpu,-pmem<br>　　　　根据CPU占用情况和内存占用情况来显示进程<br>　　watch -n 1 ‘ps -aux –sort -pcpu,-pmem’<br>　　　　每隔1秒监控一次进程情况</p>
+<p>top 动态查看系统的状态</p>
+<p>lsof -Pti :8000<br>　　通过端口号获得进程pid</p>
+<p>kill -9 pid<br>　　杀死指定pid的进程，强行杀死。</p>
+<p>history<br>　　查看历史命令</p>
+<p>执行历史命令<br>　　!! 执行上一条命令<br>　　!n 执行历史命令的中第n条<br>　　!-n 执行导数第n条<br>　　!string 执行以string开头的历史命令行<br>　　!?string? 执行包含string的历史命令行</p>
+<p>alias<br>　　给命令起别名</p>
+<p>　　alias 命令=’别名’<br>　　alias -p 查看已存在的别名</p>
+<p>unlias<br>　　取消别名<br>　　unlias name</p>
+<p>cal<br>　　查看某一年的日历，可以是1-9999中的任意一年<br>　　cal 88</p>
+<p>zcat<br>　　查看压缩包中的内容</p>
+<p>sed -i ‘s#old#new#g’ 文件名<br>　　使用new替换文件中的old</p>
+<p>ssh <a href="mailto:root@192.168.8.15">root@192.168.8.15</a> “ifconfig”<br>　　远程执行命令</p>
+<p>bash -x 脚本名<br>　　调试脚本</p>
+<p>centos6上的三个网络配置文件<br>　　/etc/sysconfig/network-scripts/ifcfg-etho<br>　　/etc/sysconfig/network<br>　　/etc/resolv.conf # dns</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/22/%E9%A1%B9%E7%9B%AE/" itemprop="url">项目</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T22:16:26+08:00">
+                2020-05-22
               </time>
             
 
@@ -1678,19 +1835,539 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h2 id="1-首页"><a href="#1-首页" class="headerlink" title="1. 首页"></a>1. 首页</h2><h3 id="1-1-分类查询"><a href="#1-1-分类查询" class="headerlink" title="1.1 分类查询"></a>1.1 分类查询</h3><ol>
+<li><p>/categorySearch?category1Id=xxx&amp;category2Id=xxx&amp;分页信息</p>
+</li>
+<li><p>controller: 调用SkuService的categorySearch(category1Id,category2Id,分页信息)</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  商品在缓存中的key<br>  使用的数据结构：list,LRU</p>
+<p>  根据分页信息，计算出需要取的范围，然后从list中拿到对应的key,再根据这些key从缓存中拿到具体的数据，这个过程，如果缓存未命中，则直接跳过</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  根据传入的数据从数据库中查找，然后写入到缓存中</p>
+</li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h3 id="1-2-全文搜索"><a href="#1-2-全文搜索" class="headerlink" title="1.2 全文搜索"></a>1.2 全文搜索</h3><ol>
+<li><p>/elasticSearch?category1Id=xxx&amp;category2Id=xxx&amp;分页信息&amp;关键字</p>
+</li>
+<li><p>controller: 调用searchService的search(category1Id,category2Id,分页信息,关键字)</p>
+</li>
+<li><p>service:<br> 构建DSL语句，执行并返回结果</p>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="2-商品详情"><a href="#2-商品详情" class="headerlink" title="2. 商品详情"></a>2. 商品详情</h2><ol>
+<li><p>/skuInfo?skuId=xxx</p>
+</li>
+<li><p>controller: 调用SkuService的skuInfo(skuId)</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="3-购物车"><a href="#3-购物车" class="headerlink" title="3. 购物车"></a>3. 购物车</h2><ol>
+<li>从商品详情中点击加入购物车，会跳到购物车   /add2Cart?skuId=xxx //加入到购物车<br>在主页点击我的购物车，也会跳到购物车      /listCart //展示购物车  </li>
+</ol>
+<pre><code>调用之前会先经过拦截器，判断是否登录成功</code></pre><ol start="2">
+<li><p>controller: 调用CartService的add2Cart(skuId)   listCart()</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>add2Cart(skuId)：直接写入到数据库中即可【不确定，也有可能直接和缓存交互，退出购物车时，再刷新到数据库中】</p>
+<p>listCart()：【看下谷粒中怎么做的，为什么用hash结构】</p>
+</li>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="4-订单"><a href="#4-订单" class="headerlink" title="4. 订单"></a>4. 订单</h2><ol>
+<li>在购物车页面，点击去结算，会跳到结算页<br>/listOrder //展示所有订单</li>
+</ol>
+<pre><code>调用之前会先经过拦截器，判断是否登录成功</code></pre><ol start="2">
+<li><p>controller: 调用OrderService的结算()   listOrder()</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>结算：<br>listCart()：【看下谷粒中怎么做的，为什么用hash结构】</p>
+</li>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+    
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+    
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/MySQL-%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/22/MySQL-%E4%BA%8B%E5%8A%A1/" itemprop="url">MySQL-事务</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T20:13:01+08:00">
+                2020-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">-MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="1-事务的基本概念"><a href="#1-事务的基本概念" class="headerlink" title="1. 事务的基本概念"></a>1. 事务的基本概念</h3><h3 id="2-事务的使用"><a href="#2-事务的使用" class="headerlink" title="2. 事务的使用"></a>2. 事务的使用</h3><h3 id="3-事务的隔离级别及其实现"><a href="#3-事务的隔离级别及其实现" class="headerlink" title="3. 事务的隔离级别及其实现"></a>3. 事务的隔离级别及其实现</h3><h3 id="3-1-事务的隔离级别"><a href="#3-1-事务的隔离级别" class="headerlink" title="3.1. 事务的隔离级别"></a>3.1. 事务的隔离级别</h3><ul>
+<li><strong>未提交读</strong></li>
+<li><strong>已提交读</strong></li>
+<li><strong>可重复读</strong></li>
+<li><strong>串行化</strong></li>
+</ul>
+<h3 id="3-2-具体实现"><a href="#3-2-具体实现" class="headerlink" title="3.2. 具体实现"></a>3.2. 具体实现</h3><ul>
+<li><strong>未提交读：</strong> 什么都不需要做</li>
+<li><strong>已提交读和可重复读：</strong> 通过MVCC实现<ul>
+<li>MVCC的原理</li>
+</ul>
+</li>
+<li><strong>串行化：</strong> 通过锁实现<ul>
+<li>MySQL中的锁</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/22/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" itemprop="url">进程管理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T17:13:54+08:00">
+                2020-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">-操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><h3 id="1-进程与线程"><a href="#1-进程与线程" class="headerlink" title="1. 进程与线程"></a>1. 进程与线程</h3><ul>
+<li><a href="https://www.cnblogs.com/qianqiannian/p/7010909.html" target="_blank" rel="noopener"><strong>进程与线程的概念与特征</strong></a></li>
+<li><a href="https://www.cnblogs.com/lrhya/p/10636011.html" target="_blank" rel="noopener"><strong>进程的状态与转换</strong></a></li>
+<li><a href="https://www.cnblogs.com/lrhya/p/10636011.html" target="_blank" rel="noopener"><strong>线程的状态与转换</strong></a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E4%BC%A0%E8%BE%93%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小蜗">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiaoawo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蜗学习之旅">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/22/%E4%BC%A0%E8%BE%93%E5%B1%82/" itemprop="url">传输层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T16:38:36+08:00">
+                2020-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">-计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><h3 id="1-tcp协议"><a href="#1-tcp协议" class="headerlink" title="1. tcp协议"></a>1. tcp协议</h3><ul>
+<li><a href="https://baike.baidu.com/item/三次握手/5111559?fr=aladdin" target="_blank" rel="noopener"><strong>三次握手与四次挥手</strong></a></li>
+</ul>
 
           
         
@@ -1729,6 +2406,10 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -1776,7 +2457,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1787,7 +2468,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

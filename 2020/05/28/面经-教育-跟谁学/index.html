@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
+<meta name="description" content="面经一1、聊项目2、线程池，怎么设定核心线程数ThreadPoolExecutor的第一个参数就是corePoolSize 3、用过线程同步工具类吗？ Java并发工具类  4、并行和并发的区别 并行：同时执行（在多核CPU上才会出现）  并发：时间片轮转执行多个任务，由于处理速度很快，使得用户感觉好像在同时处理一样   5、能不能自定义java.lang.String（背后想问类加载） 能不能自">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedList">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/LinkedList/index.html">
+<meta property="og:title" content="面经-教育-跟谁学">
+<meta property="og:url" content="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
-<meta property="article:published_time" content="2020-05-20T08:48:01.000Z">
-<meta property="article:modified_time" content="2020-05-20T08:58:55.156Z">
+<meta property="og:description" content="面经一1、聊项目2、线程池，怎么设定核心线程数ThreadPoolExecutor的第一个参数就是corePoolSize 3、用过线程同步工具类吗？ Java并发工具类  4、并行和并发的区别 并行：同时执行（在多核CPU上才会出现）  并发：时间片轮转执行多个任务，由于处理速度很快，使得用户感觉好像在同时处理一样   5、能不能自定义java.lang.String（背后想问类加载） 能不能自">
+<meta property="article:published_time" content="2020-05-28T07:56:39.000Z">
+<meta property="article:modified_time" content="2020-05-28T12:46:13.079Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/LinkedList/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/28/面经-教育-跟谁学/"/>
 
 
 
 
 
-  <title>LinkedList | 小蜗学习之旅</title>
+  <title>面经-教育-跟谁学 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedList</h1>
+          <h1 class="post-title" itemprop="name headline">面经-教育-跟谁学</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T15:56:39+08:00">
+                2020-05-28
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F-%E6%95%99%E8%82%B2-%E8%B7%9F%E8%B0%81%E5%AD%A6/" itemprop="url" rel="index">
+                    <span itemprop="name">-面经 -教育 -跟谁学</span>
                   </a>
                 </span>
 
@@ -383,63 +383,103 @@
       
 
       
-        <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
-
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
+        <h2 id="面经一"><a href="#面经一" class="headerlink" title="面经一"></a>面经一</h2><h4 id="1、聊项目"><a href="#1、聊项目" class="headerlink" title="1、聊项目"></a>1、聊项目</h4><h4 id="2、线程池，怎么设定核心线程数"><a href="#2、线程池，怎么设定核心线程数" class="headerlink" title="2、线程池，怎么设定核心线程数"></a>2、线程池，怎么设定核心线程数</h4><p>ThreadPoolExecutor的第一个参数就是corePoolSize</p>
+<h4 id="3、用过线程同步工具类吗？"><a href="#3、用过线程同步工具类吗？" class="headerlink" title="3、用过线程同步工具类吗？"></a>3、用过线程同步工具类吗？</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/28/JAVA多线程-并发工具类/" target="_blank" rel="noopener">Java并发工具类</a></li>
+</ul>
+<h4 id="4、并行和并发的区别"><a href="#4、并行和并发的区别" class="headerlink" title="4、并行和并发的区别"></a>4、并行和并发的区别</h4><ul>
+<li><p>并行：同时执<strong>行</strong>（在多核CPU上才会出现）</p>
+</li>
+<li><p>并发：时间片轮转执行多个任务，由于处理速度很快，使得用户感觉好像在同时处理一样</p>
+</li>
+</ul>
+<h4 id="5、能不能自定义java-lang-String（背后想问类加载）"><a href="#5、能不能自定义java-lang-String（背后想问类加载）" class="headerlink" title="5、能不能自定义java.lang.String（背后想问类加载）"></a>5、能不能自定义java.lang.String（背后想问类加载）</h4><ul>
+<li><a href="https://blog.csdn.net/qq_38305457/article/details/103369283?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">能不能自定义java.lang.String</a></li>
+<li><strong>JVM自带的加载器（重要）：</strong><ul>
+<li>根加载器,Bootstrap :  <ul>
+<li>加载 jre\lib\rt.jar （包含了Object、String、Math等平时编写代码时 大部分的jdk API）；  </li>
+<li>也可以通过JVM参数-Xbootclasspath指定加载某一个jar扩展类加载器</li>
+</ul>
+</li>
+<li>Extension：<ul>
+<li>加载jre中lib\ext*.jar中的类 ;</li>
+<li>也可以通过JVM参数-Djava.ext.dirs指定加载某一个jar</li>
+</ul>
+</li>
+<li>AppClassLoader/SystemClassLoader，系统加载器（也称为应用加载器）：<ul>
+<li>加载classpath（通常程序中的src）；</li>
+<li>也可以通过JVM参数-Djava.class.path指定加载某一个类/jar</li>
+</ul>
+</li>
+<li>用户自定义的加载器都是抽象类java.lang.ClassLoader的子类，用于自定义加载</li>
+</ul>
+</li>
+<li><strong>个人看法：</strong><ul>
+<li>如果想这样做，两个办法：<ul>
+<li>破坏双亲委派模型</li>
+<li>直接替换jre\lib\rt.jar中的java.lang.String部分</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="6、异常分类及处理"><a href="#6、异常分类及处理" class="headerlink" title="6、异常分类及处理"></a>6、异常分类及处理</h4><ul>
+<li><a href="https://www.cnblogs.com/niceyoo/p/10585459.html" target="_blank" rel="noopener">异常分类及处理</a></li>
+</ul>
+<h4 id="7、Java-容器有哪些，来自同一个父类吗？"><a href="#7、Java-容器有哪些，来自同一个父类吗？" class="headerlink" title="7、Java 容器有哪些，来自同一个父类吗？"></a>7、Java 容器有哪些，来自同一个父类吗？</h4><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/41260780" target="_blank" rel="noopener">集合分类</a>  </li>
+<li>Collection<ul>
+<li>List: ArrayList,LinkedList,Stack</li>
+<li>Set: HashSet,TreeSet</li>
+<li>Queue: PriorityQueue</li>
+</ul>
+</li>
+<li>Map: HashMap,TreeMap</li>
+</ul>
+<h4 id="8、arraylist初始值，怎么扩容"><a href="#8、arraylist初始值，怎么扩容" class="headerlink" title="8、arraylist初始值，怎么扩容"></a>8、arraylist初始值，怎么扩容</h4><ul>
+<li><a href="https://xiaoawo.github.io/2020/05/20/ArrayList/" target="_blank" rel="noopener">ArrayList</a></li>
+<li>先确定容量（需要扩容就扩容），然后再添加元素</li>
+<li>DEFAULT_CAPACITY = 10  </li>
+<li>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);//1.5倍扩容</li>
+</ul>
+<h4 id="9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）"><a href="#9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）" class="headerlink" title="9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）"></a>9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）</h4><ul>
+<li><p><a href="https://blog.csdn.net/weixin_40569991/article/details/88639456" target="_blank" rel="noopener">快速失败(fail-fast)和安全失败(fail-safe)</a></p>
+</li>
+<li><p>不可以，增强for本质上使用的就是迭代器</p>
+<pre><code>//快速失败fail-fast
+private static void iteratorTest(){
+    LinkedList&lt;Integer&gt; linkedList=new LinkedList&lt;Integer&gt;();
+    for(int i=0;i&lt;10;i++){
+        linkedList.add(i);
     }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
 
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
+    for(Integer i:linkedList){
+        System.out.println(i);
+        linkedList.removeFirst();
     }
-}</code></pre>
+}
+#################################
+内部有个modCount（集合中元素的个数）,在迭代的过程中一旦发现modCount改变了，就会抛出如下异常
+Exception in thread &quot;main&quot; java.util.ConcurrentModificationException
+    at java.util.LinkedList$ListItr.checkForComodification(LinkedList.java:966)
+    at java.util.LinkedList$ListItr.next(LinkedList.java:888)
+    at set.SetTest.iteratorTest(SetTest.java:47)
+    at set.SetTest.main(SetTest.java:11)
+#################################
+分析上述的堆栈信息，可以推断在执行next()时，会先执行checkForComodification()检查modCount是否改变了</code></pre></li>
+</ul>
+<h4 id="10、怎么写一个函数式接口"><a href="#10、怎么写一个函数式接口" class="headerlink" title="10、怎么写一个函数式接口"></a>10、怎么写一个函数式接口</h4><ul>
+<li><a href="https://www.cnblogs.com/weixuqin/p/11494894.html" target="_blank" rel="noopener">函数式接口</a></li>
+</ul>
+<h4 id="11、Stream怎么把二维数组变一维"><a href="#11、Stream怎么把二维数组变一维" class="headerlink" title="11、Stream怎么把二维数组变一维"></a>11、Stream怎么把二维数组变一维</h4><h4 id="12、Spring-IOC容器"><a href="#12、Spring-IOC容器" class="headerlink" title="12、Spring IOC容器"></a>12、Spring IOC容器</h4><ul>
+<li><a href="https://www.cnblogs.com/superjt/p/4311577.html" target="_blank" rel="noopener"><strong>IOC原理与依赖注入</strong></a></li>
+</ul>
+<h4 id="13、Spring-依赖注入"><a href="#13、Spring-依赖注入" class="headerlink" title="13、Spring 依赖注入"></a>13、Spring 依赖注入</h4><p>【个人感觉是想问循环依赖如何解决】【待做】</p>
+<h4 id="14、left-join语句的作用，后面on和where的区别"><a href="#14、left-join语句的作用，后面on和where的区别" class="headerlink" title="14、left join语句的作用，后面on和where的区别"></a>14、left join语句的作用，后面on和where的区别</h4><ul>
+<li><a href="https://www.cnblogs.com/yyxz/p/3812499.html" target="_blank" rel="noopener">left join语句的作用，后面on和where的区别</a></li>
+</ul>
+<p>算法题：int反转（因为好多都不会，所以就贼简单的题）</p>
+
       
     </div>
     
@@ -463,8 +503,8 @@ Node&lt;E&gt; node(int index) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/ArrayList/" rel="next" title="ArrayList">
-                <i class="fa fa-chevron-left"></i> ArrayList
+              <a href="/2020/05/23/Linux/" rel="next" title="Linux">
+                <i class="fa fa-chevron-left"></i> Linux
               </a>
             
           </div>
@@ -473,8 +513,8 @@ Node&lt;E&gt; node(int index) {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/20/Synchronized/" rel="prev" title="Synchronized">
-                Synchronized <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/28/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="prev" title="JAVA多线程-并发工具类">
+                JAVA多线程-并发工具类 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +642,7 @@ Node&lt;E&gt; node(int index) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">LinkedList的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造器：LinkedList"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 无参构造器：LinkedList()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-add-E"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 add(E)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-E-get-i"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 E get(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面经一"><span class="nav-number">1.</span> <span class="nav-text">面经一</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、聊项目"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、聊项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、线程池，怎么设定核心线程数"><span class="nav-number">1.0.2.</span> <span class="nav-text">2、线程池，怎么设定核心线程数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、用过线程同步工具类吗？"><span class="nav-number">1.0.3.</span> <span class="nav-text">3、用过线程同步工具类吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、并行和并发的区别"><span class="nav-number">1.0.4.</span> <span class="nav-text">4、并行和并发的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、能不能自定义java-lang-String（背后想问类加载）"><span class="nav-number">1.0.5.</span> <span class="nav-text">5、能不能自定义java.lang.String（背后想问类加载）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、异常分类及处理"><span class="nav-number">1.0.6.</span> <span class="nav-text">6、异常分类及处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、Java-容器有哪些，来自同一个父类吗？"><span class="nav-number">1.0.7.</span> <span class="nav-text">7、Java 容器有哪些，来自同一个父类吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、arraylist初始值，怎么扩容"><span class="nav-number">1.0.8.</span> <span class="nav-text">8、arraylist初始值，怎么扩容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）"><span class="nav-number">1.0.9.</span> <span class="nav-text">9、可以在iterator循环的过程中删除元素吗？（fail-fast和fail-safe）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、怎么写一个函数式接口"><span class="nav-number">1.0.10.</span> <span class="nav-text">10、怎么写一个函数式接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11、Stream怎么把二维数组变一维"><span class="nav-number">1.0.11.</span> <span class="nav-text">11、Stream怎么把二维数组变一维</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12、Spring-IOC容器"><span class="nav-number">1.0.12.</span> <span class="nav-text">12、Spring IOC容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13、Spring-依赖注入"><span class="nav-number">1.0.13.</span> <span class="nav-text">13、Spring 依赖注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14、left-join语句的作用，后面on和where的区别"><span class="nav-number">1.0.14.</span> <span class="nav-text">14、left join语句的作用，后面on和where的区别</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="HashMap的底层实现（源码分析）1. 数据结构   JDK1.7 : 数组+链表JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）   2. 源码分析   2.1 put(K,V) 2.1.1 简介 public V put(K,V){     return putVal(hash(K),K,V,?,?)；&#x2F;&#x2F;实际上调用的是putVal">
+<meta name="description" content="HashMap的底层实现（源码分析）1. 数据结构JDK1.7 : 数组+链表JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）   2. 源码分析2.1 put(K,V) 2.1.1 简介 public V put(K,V){     return putVal(hash(K),K,V,?,?)；&#x2F;&#x2F;实际上调用的是putVal }  &#x2F;&#x2F;h">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVA集合-HashMap">
 <meta property="og:url" content="http://yoursite.com/2020/05/20/HashMap/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="HashMap的底层实现（源码分析）1. 数据结构   JDK1.7 : 数组+链表JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）   2. 源码分析   2.1 put(K,V) 2.1.1 简介 public V put(K,V){     return putVal(hash(K),K,V,?,?)；&#x2F;&#x2F;实际上调用的是putVal">
+<meta property="og:description" content="HashMap的底层实现（源码分析）1. 数据结构JDK1.7 : 数组+链表JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）   2. 源码分析2.1 put(K,V) 2.1.1 简介 public V put(K,V){     return putVal(hash(K),K,V,?,?)；&#x2F;&#x2F;实际上调用的是putVal }  &#x2F;&#x2F;h">
 <meta property="article:published_time" content="2020-05-20T05:42:23.000Z">
-<meta property="article:modified_time" content="2020-05-20T07:11:53.049Z">
+<meta property="article:modified_time" content="2020-05-22T08:21:19.260Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
@@ -383,10 +383,8 @@
       
 
       
-        <h2 id="HashMap的底层实现（源码分析）"><a href="#HashMap的底层实现（源码分析）" class="headerlink" title="HashMap的底层实现（源码分析）"></a>HashMap的底层实现（源码分析）</h2><p><strong>1. 数据结构</strong>  </p>
-<p>JDK1.7 : 数组+链表<br>JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）  </p>
-<p><strong>2. 源码分析</strong>  </p>
-<p>2.1 put(K,V)</p>
+        <h2 id="HashMap的底层实现（源码分析）"><a href="#HashMap的底层实现（源码分析）" class="headerlink" title="HashMap的底层实现（源码分析）"></a>HashMap的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>JDK1.7 : 数组+链表<br>JDK1.8 : 数组+链表&amp;红黑树（链表长度&gt;8 and 数组大小&gt;64, 链转树）  </p>
+<h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><p>2.1 put(K,V)</p>
 <p>2.1.1 简介</p>
 <pre><code>public V put(K,V){
     return putVal(hash(K),K,V,?,?)；//实际上调用的是putVal
@@ -711,7 +709,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -722,7 +720,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -757,7 +755,7 @@ final Node&lt;K,V&gt; getNode(int hash, Object key) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">HashMap的底层实现（源码分析）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">HashMap的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a></li></ol></li></ol></div>
             
 
           </div>

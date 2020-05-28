@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
+<meta name="description" content="传输层1. tcp协议 三次握手与四次挥手">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedList">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/LinkedList/index.html">
+<meta property="og:title" content="传输层">
+<meta property="og:url" content="http://yoursite.com/2020/05/22/%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
-<meta property="article:published_time" content="2020-05-20T08:48:01.000Z">
-<meta property="article:modified_time" content="2020-05-20T08:58:55.156Z">
+<meta property="og:description" content="传输层1. tcp协议 三次握手与四次挥手">
+<meta property="article:published_time" content="2020-05-22T08:38:36.000Z">
+<meta property="article:modified_time" content="2020-05-22T08:39:47.456Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/LinkedList/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/22/传输层/"/>
 
 
 
 
 
-  <title>LinkedList | 小蜗学习之旅</title>
+  <title>传输层 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E4%BC%A0%E8%BE%93%E5%B1%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedList</h1>
+          <h1 class="post-title" itemprop="name headline">传输层</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T16:38:36+08:00">
+                2020-05-22
               </time>
             
 
@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">-计算机网络</span>
                   </a>
                 </span>
 
@@ -383,63 +383,10 @@
       
 
       
-        <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
+        <h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><h3 id="1-tcp协议"><a href="#1-tcp协议" class="headerlink" title="1. tcp协议"></a>1. tcp协议</h3><ul>
+<li><a href="https://baike.baidu.com/item/三次握手/5111559?fr=aladdin" target="_blank" rel="noopener"><strong>三次握手与四次挥手</strong></a></li>
+</ul>
 
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
-    }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
-
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
-    }
-}</code></pre>
       
     </div>
     
@@ -463,8 +410,8 @@ Node&lt;E&gt; node(int index) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/ArrayList/" rel="next" title="ArrayList">
-                <i class="fa fa-chevron-left"></i> ArrayList
+              <a href="/2020/05/22/%E5%BA%94%E7%94%A8%E5%B1%82/" rel="next" title="应用层">
+                <i class="fa fa-chevron-left"></i> 应用层
               </a>
             
           </div>
@@ -473,8 +420,8 @@ Node&lt;E&gt; node(int index) {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/20/Synchronized/" rel="prev" title="Synchronized">
-                Synchronized <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/22/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" rel="prev" title="进程管理">
+                进程管理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +549,7 @@ Node&lt;E&gt; node(int index) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">LinkedList的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造器：LinkedList"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 无参构造器：LinkedList()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-add-E"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 add(E)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-E-get-i"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 E get(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层"><span class="nav-number">1.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-tcp协议"><span class="nav-number">1.1.</span> <span class="nav-text">1. tcp协议</span></a></li></ol></li></ol></div>
             
 
           </div>

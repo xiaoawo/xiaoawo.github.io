@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
+<meta name="description" content="1. 首页1.1 分类查询 &#x2F;categorySearch?category1Id&#x3D;xxx&amp;category2Id&#x3D;xxx&amp;分页信息  controller: 调用SkuService的categorySearch(category1Id,category2Id,分页信息)  service:     先从缓存中查找  缓存的key:  缓存的value:  商品在缓存中的key">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedList">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/LinkedList/index.html">
+<meta property="og:title" content="项目">
+<meta property="og:url" content="http://yoursite.com/2020/05/22/%E9%A1%B9%E7%9B%AE/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="LinkedList的底层实现（源码分析）1. 数据结构双向链表   private static class Node&lt;E&gt; {     E item;     Node&lt;E&gt; next;     Node&lt;E&gt; prev;      Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {">
-<meta property="article:published_time" content="2020-05-20T08:48:01.000Z">
-<meta property="article:modified_time" content="2020-05-20T08:58:55.156Z">
+<meta property="og:description" content="1. 首页1.1 分类查询 &#x2F;categorySearch?category1Id&#x3D;xxx&amp;category2Id&#x3D;xxx&amp;分页信息  controller: 调用SkuService的categorySearch(category1Id,category2Id,分页信息)  service:     先从缓存中查找  缓存的key:  缓存的value:  商品在缓存中的key">
+<meta property="article:published_time" content="2020-05-22T14:16:26.000Z">
+<meta property="article:modified_time" content="2020-05-23T07:58:28.828Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/LinkedList/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/22/项目/"/>
 
 
 
 
 
-  <title>LinkedList | 小蜗学习之旅</title>
+  <title>项目 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/LinkedList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/22/%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LinkedList</h1>
+          <h1 class="post-title" itemprop="name headline">项目</h1>
         
 
         <div class="post-meta">
@@ -323,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T16:48:01+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-22T22:16:26+08:00">
+                2020-05-22
               </time>
             
 
@@ -333,28 +333,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA%E5%9F%BA%E7%A1%80-%E9%9B%86%E5%90%88/" itemprop="url" rel="index">
-                    <span itemprop="name">-JAVA基础 -集合</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -383,63 +361,92 @@
       
 
       
-        <h2 id="LinkedList的底层实现（源码分析）"><a href="#LinkedList的底层实现（源码分析）" class="headerlink" title="LinkedList的底层实现（源码分析）"></a>LinkedList的底层实现（源码分析）</h2><h3 id="1-数据结构"><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a>1. 数据结构</h3><p>双向链表  </p>
-<pre><code>private static class Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
+        <h2 id="1-首页"><a href="#1-首页" class="headerlink" title="1. 首页"></a>1. 首页</h2><h3 id="1-1-分类查询"><a href="#1-1-分类查询" class="headerlink" title="1.1 分类查询"></a>1.1 分类查询</h3><ol>
+<li><p>/categorySearch?category1Id=xxx&amp;category2Id=xxx&amp;分页信息</p>
+</li>
+<li><p>controller: 调用SkuService的categorySearch(category1Id,category2Id,分页信息)</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  商品在缓存中的key<br>  使用的数据结构：list,LRU</p>
+<p>  根据分页信息，计算出需要取的范围，然后从list中拿到对应的key,再根据这些key从缓存中拿到具体的数据，这个过程，如果缓存未命中，则直接跳过</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  根据传入的数据从数据库中查找，然后写入到缓存中</p>
+</li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h3 id="1-2-全文搜索"><a href="#1-2-全文搜索" class="headerlink" title="1.2 全文搜索"></a>1.2 全文搜索</h3><ol>
+<li><p>/elasticSearch?category1Id=xxx&amp;category2Id=xxx&amp;分页信息&amp;关键字</p>
+</li>
+<li><p>controller: 调用searchService的search(category1Id,category2Id,分页信息,关键字)</p>
+</li>
+<li><p>service:<br> 构建DSL语句，执行并返回结果</p>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="2-商品详情"><a href="#2-商品详情" class="headerlink" title="2. 商品详情"></a>2. 商品详情</h2><ol>
+<li><p>/skuInfo?skuId=xxx</p>
+</li>
+<li><p>controller: 调用SkuService的skuInfo(skuId)</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="3-购物车"><a href="#3-购物车" class="headerlink" title="3. 购物车"></a>3. 购物车</h2><ol>
+<li>从商品详情中点击加入购物车，会跳到购物车   /add2Cart?skuId=xxx //加入到购物车<br>在主页点击我的购物车，也会跳到购物车      /listCart //展示购物车  </li>
+</ol>
+<pre><code>调用之前会先经过拦截器，判断是否登录成功</code></pre><ol start="2">
+<li><p>controller: 调用CartService的add2Cart(skuId)   listCart()</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>add2Cart(skuId)：直接写入到数据库中即可【不确定，也有可能直接和缓存交互，退出购物车时，再刷新到数据库中】</p>
+<p>listCart()：【看下谷粒中怎么做的，为什么用hash结构】</p>
+</li>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
+<h2 id="4-订单"><a href="#4-订单" class="headerlink" title="4. 订单"></a>4. 订单</h2><ol>
+<li>在购物车页面，点击去结算，会跳到结算页<br>/listOrder //展示所有订单</li>
+</ol>
+<pre><code>调用之前会先经过拦截器，判断是否登录成功</code></pre><ol start="2">
+<li><p>controller: 调用OrderService的结算()   listOrder()</p>
+</li>
+<li><p>service:   </p>
+<ul>
+<li><p>结算：<br>listCart()：【看下谷粒中怎么做的，为什么用hash结构】</p>
+</li>
+<li><p>先从缓存中查找<br>  缓存的key:<br>  缓存的value:  JSON(skuInfo)<br>  使用的数据结构：String</p>
+</li>
+<li><p>缓存未命中再从数据库中查找<br>  先加分布式锁  </p>
+<pre><code>&amp;emsp;&amp;emsp;加锁成功：根据传入的数据从数据库中查找，然后写入到缓存中（写入的数据中，包含一个标识，代表该数据是否有效，即是否从数据库中查询到了正确数据）  
+&amp;emsp;&amp;emsp;加锁失败：自旋一段时间后再从缓存中读</code></pre></li>
+</ul>
+</li>
+<li><p>返回查询结果</p>
+</li>
+</ol>
 
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        this.item = element;
-        this.next = next;
-        this.prev = prev;
-    }
-}</code></pre><h3 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2. 源码分析"></a>2. 源码分析</h3><h4 id="2-1-无参构造器：LinkedList"><a href="#2-1-无参构造器：LinkedList" class="headerlink" title="2.1 无参构造器：LinkedList()"></a>2.1 无参构造器：LinkedList()</h4><p>为空，什么都不做</p>
-<pre><code>public LinkedList() {
-}</code></pre><h4 id="2-2-add-E"><a href="#2-2-add-E" class="headerlink" title="2.2 add(E)"></a>2.2 add(E)</h4><pre><code>public boolean add(E e) {
-    linkLast(e);//插入链表尾部
-    return true;
-}
-
-void linkLast(E e) {
-    final Node&lt;E&gt; l = last;//获取当前链表的最后一个节点
-    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null);
-    last = newNode;
-    if (l == null)
-        first = newNode;
-    else
-        l.next = newNode;
-    size++;//修改size
-    modCount++;
-}</code></pre><h4 id="2-3-E-get-i"><a href="#2-3-E-get-i" class="headerlink" title="2.3 E get(i)"></a>2.3 E get(i)</h4><pre><code>public E get(int index) {
-    checkElementIndex(index);//检查是否越界
-    return node(index).item;
-}
-
-private void checkElementIndex(int index) {
-    if (!isElementIndex(index))
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-}
-
-private boolean isElementIndex(int index) {
-    return index &gt;= 0 &amp;&amp; index &lt; size;
-}
-
-Node&lt;E&gt; node(int index) {
-    // assert isElementIndex(index);
-
-    if (index &lt; (size &gt;&gt; 1)) { //index &lt; size/2，则从头遍历，否则从尾遍历
-        Node&lt;E&gt; x = first;
-        for (int i = 0; i &lt; index; i++)
-            x = x.next;
-        return x;
-    } else {
-        Node&lt;E&gt; x = last;
-        for (int i = size - 1; i &gt; index; i--)
-            x = x.prev;
-        return x;
-    }
-}</code></pre>
       
     </div>
     
@@ -463,8 +470,8 @@ Node&lt;E&gt; node(int index) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/ArrayList/" rel="next" title="ArrayList">
-                <i class="fa fa-chevron-left"></i> ArrayList
+              <a href="/2020/05/22/MySQL-%E4%BA%8B%E5%8A%A1/" rel="next" title="MySQL-事务">
+                <i class="fa fa-chevron-left"></i> MySQL-事务
               </a>
             
           </div>
@@ -473,8 +480,8 @@ Node&lt;E&gt; node(int index) {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/20/Synchronized/" rel="prev" title="Synchronized">
-                Synchronized <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/23/Linux/" rel="prev" title="Linux">
+                Linux <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +609,7 @@ Node&lt;E&gt; node(int index) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList的底层实现（源码分析）"><span class="nav-number">1.</span> <span class="nav-text">LinkedList的底层实现（源码分析）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-源码分析"><span class="nav-number">1.2.</span> <span class="nav-text">2. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造器：LinkedList"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 无参构造器：LinkedList()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-add-E"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 add(E)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-E-get-i"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 E get(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-首页"><span class="nav-number">1.</span> <span class="nav-text">1. 首页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-分类查询"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 分类查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-全文搜索"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 全文搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-商品详情"><span class="nav-number">2.</span> <span class="nav-text">2. 商品详情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-购物车"><span class="nav-number">3.</span> <span class="nav-text">3. 购物车</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-订单"><span class="nav-number">4.</span> <span class="nav-text">4. 订单</span></a></li></ol></div>
             
 
           </div>
