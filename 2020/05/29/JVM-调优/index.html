@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="凡心所向，素履所往，生如逆旅，一苇以航">
+<meta name="description" content="JVM调优一、JVM参数配置  JVM内存模型    方法区：主要用来存放Class对象、常量。。。所以不会很占空间 堆：涉及到对象频繁的创建与销毁，因此分为了新生代和老年代 新生代：采用复制算法，一般From Survivor：To Survivor：Eden &#x3D; 1:1:8 老年代：新生代&#x2F;老年代&#x3D;3&#x2F;8   程序计数器：不会占很大空间，不需要关注 方法栈（虚拟机栈和本地方法栈）：主要是栈的深">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Synchronized">
-<meta property="og:url" content="http://yoursite.com/2020/05/20/Synchronized/index.html">
+<meta property="og:title" content="JVM-调优">
+<meta property="og:url" content="http://yoursite.com/2020/05/29/JVM-%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="小蜗学习之旅">
-<meta property="og:description" content="凡心所向，素履所往，生如逆旅，一苇以航">
-<meta property="article:published_time" content="2020-05-20T09:05:25.000Z">
-<meta property="article:modified_time" content="2020-05-20T09:05:25.149Z">
+<meta property="og:description" content="JVM调优一、JVM参数配置  JVM内存模型    方法区：主要用来存放Class对象、常量。。。所以不会很占空间 堆：涉及到对象频繁的创建与销毁，因此分为了新生代和老年代 新生代：采用复制算法，一般From Survivor：To Survivor：Eden &#x3D; 1:1:8 老年代：新生代&#x2F;老年代&#x3D;3&#x2F;8   程序计数器：不会占很大空间，不需要关注 方法栈（虚拟机栈和本地方法栈）：主要是栈的深">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2018120320461094.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDMyMTY3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-05-29T04:53:04.000Z">
+<meta property="article:modified_time" content="2020-05-29T05:52:45.687Z">
 <meta property="article:author" content="小蜗">
 <meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2018120320461094.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDMyMTY3Mg==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/20/Synchronized/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/29/JVM-调优/"/>
 
 
 
 
 
-  <title>Synchronized | 小蜗学习之旅</title>
+  <title>JVM-调优 | 小蜗学习之旅</title>
   
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/Synchronized/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/29/JVM-%E8%B0%83%E4%BC%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小蜗">
@@ -311,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Synchronized</h1>
+          <h1 class="post-title" itemprop="name headline">JVM-调优</h1>
         
 
         <div class="post-meta">
@@ -323,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T17:05:25+08:00">
-                2020-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-29T12:53:04+08:00">
+                2020-05-29
               </time>
             
 
@@ -333,6 +335,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">-JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -361,7 +385,85 @@
       
 
       
-        
+        <h2 id="JVM调优"><a href="#JVM调优" class="headerlink" title="JVM调优"></a>JVM调优</h2><h3 id="一、JVM参数配置"><a href="#一、JVM参数配置" class="headerlink" title="一、JVM参数配置"></a>一、JVM参数配置</h3><div align=center><img src="https://img-blog.csdnimg.cn/2018120320461094.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDMyMTY3Mg==,size_16,color_FFFFFF,t_70" width="600"/></div>
+
+<div align=center>JVM内存模型</div>
+
+
+<ul>
+<li><strong>方法区</strong>：主要用来存放Class对象、常量。。。所以不会很占空间</li>
+<li><strong>堆</strong>：涉及到对象频繁的创建与销毁，因此分为了新生代和老年代<ul>
+<li>新生代：采用复制算法，一般From Survivor：To Survivor：Eden = 1:1:8</li>
+<li>老年代：新生代/老年代=3/8</li>
+</ul>
+</li>
+<li><strong>程序计数器</strong>：不会占很大空间，不需要关注</li>
+<li><strong>方法栈（虚拟机栈和本地方法栈）</strong>：主要是栈的深度占空间，而且一旦栈大了，那么可分配的线程数就会减少</li>
+</ul>
+<h4 id="1、堆设置"><a href="#1、堆设置" class="headerlink" title="1、堆设置"></a>1、堆设置</h4><ul>
+<li>-Xms:初始堆大小  </li>
+<li>-Xmx:最大堆大小<br>【一般-Xms和-Xmx设置相同，同时如果非Java程序较少，可尽量接近OS的实际内存】 </li>
+<li>-XX:NewSize=n:设置年轻代大小  </li>
+<li>-XX:NewRatio=n:设置年轻代和年老代的比值。如:为3，表示年轻代与年老代比值为1：3，年轻代占整个年轻代年老代和的1/4  </li>
+<li>-XX:SurvivorRatio=n:年轻代中Eden区与两个Survivor区的比值。注意Survivor区有两个。如：3，表示Eden：Survivor=3：2，一个Survivor区占整个年轻代的1/5  </li>
+<li>-XX:MaxPermSize=n:设置持久代大小</li>
+<li>-XX:MaxTenuringThreshold=0：设置垃圾最大年龄。  超过该年龄的对象进入老年代<br>【新生代、老年代、永久代实际上应该根据实际的应用运行情况来设置,一般建议：新/老=3/8；永久代=64m 】</li>
+</ul>
+<h4 id="2、栈设置"><a href="#2、栈设置" class="headerlink" title="2、栈设置"></a>2、栈设置</h4><ul>
+<li>-Xss128k： 设置每个线程的堆栈大小。JDK5.0以后每个线程堆栈大小为1M，以前每个线程堆栈大小为256K。更具应用的线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。</li>
+</ul>
+<h4 id="3、收集器设置"><a href="#3、收集器设置" class="headerlink" title="3、收集器设置"></a>3、收集器设置</h4><ul>
+<li>-XX:+UseSerialGC:设置串行收集器  </li>
+<li>-XX:+UseParallelGC:设置并行收集器  </li>
+<li>-XX:+UseParalledlOldGC:设置并行年老代收集器  <ul>
+<li>-XX:ParallelGCThreads=n:设置并行收集器收集时使用的CPU数。并行收集线程数。</li>
+<li>-XX:MaxGCPauseMillis=n:设置并行收集最大暂停时间</li>
+<li>-XX:GCTimeRatio=n:设置垃圾回收时间占程序运行时间的百分比。公式为1/(1+n)</li>
+</ul>
+</li>
+<li>-XX:+UseConcMarkSweepGC:设置并发收集器  <ul>
+<li>-XX:+CMSIncrementalMode:设置为增量模式。适用于单CPU情况。</li>
+<li>-XX:ParallelGCThreads=n:设置并发收集器年轻代收集方式为并行收集时，使用的CPU数。并行收集线程数。</li>
+<li>-XX:CMSFullGCsBeforeCompaction=n：由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生“碎片”，使得运行效率降低。此值设置运行多少次GC以后对内存空间进行压缩、整理。</li>
+<li>-XX:+UseCMSCompactAtFullCollection：打开对年老代的压缩。可能会影响性能，但是可以消除碎片</li>
+</ul>
+</li>
+</ul>
+<h4 id="4、垃圾回收统计信息"><a href="#4、垃圾回收统计信息" class="headerlink" title="4、垃圾回收统计信息"></a>4、垃圾回收统计信息</h4><ul>
+<li>-XX:+PrintGC</li>
+<li>-XX:+PrintGCDetails</li>
+<li>-XX:+PrintGCTimeStamps</li>
+<li>-XX:+PrintGCApplicationConcurrentTime:打印每次垃圾回收前，程序未中断的执行时间</li>
+<li>-XX:+PrintGCApplicationStoppedTime：打印垃圾回收期间程序暂停的时间</li>
+<li>-Xloggc:filename</li>
+</ul>
+<h4 id="5、调优总结"><a href="#5、调优总结" class="headerlink" title="5、调优总结"></a>5、调优总结</h4><p><strong>年轻代大小选择</strong>  </p>
+<ul>
+<li>响应时间优先的应用：尽可能设大，直到接近系统的最低响应时间限制（根据实际情况选择）。在此种情况下，年轻代收集发生的频率也是最小的。同时，减少到达年老代的对象。  </li>
+<li>吞吐量优先的应用：尽可能的设置大，可能到达Gbit的程度。因为对响应时间没有要求，垃圾收集可以并行进行，一般适合8CPU以上的应用。</li>
+</ul>
+<p><strong>老年代大小选择</strong> </p>
+<ul>
+<li>响应时间优先的应用：年老代使用并发收集器，所以其大小需要小心设置，一般要考虑并发会话率和会话持续时间等一些参数。如果堆设置小了，可以会造成内存碎片、高回收频率以及应用暂停而使用传统的标记清除方式；如果堆大了，则需要较长的收集时间。最优化的方案，一般需要参考以下数据获得： <ul>
+<li>并发垃圾收集信息  </li>
+<li>持久代并发收集次数  </li>
+<li>传统GC信息  </li>
+<li>花在年轻代和年老代回收上的时间比例    </li>
+<li>减少年轻代和年老代花费的时间，一般会提高应用的效率  </li>
+</ul>
+</li>
+<li>吞吐量优先的应用：一般吞吐量优先的应用都有一个很大的年轻代和一个较小的年老代。原因是，这样可以尽可能回收掉大部分短期对象，减少中期的对象，而年老代尽存放长期存活对象。  </li>
+</ul>
+<p><strong>较小堆引起的碎片问题</strong>  </p>
+<p>因为年老代的并发收集器使用标记、清除算法，所以不会对堆进行压缩。当收集器回收时，他会把相邻的空间进行合并，这样可以分配给较大的对象。但是，当堆空间较小时，运行一段时间以后，就会出现“碎片”，如果并发收集器找不到足够的空间，那么并发收集器将会停止，然后使用传统的标记、清除方式进行回收。如果出现“碎片”，可能需要进行如下配置：  </p>
+<ul>
+<li>-XX:+UseCMSCompactAtFullCollection：使用并发收集器时，开启对年老代的压缩。  </li>
+<li>-XX:CMSFullGCsBeforeCompaction=0：上面配置开启的情况下，这里设置多少次Full GC后，对年老代进行压缩</li>
+</ul>
+<h4 id="6、调优实战"><a href="#6、调优实战" class="headerlink" title="6、调优实战"></a>6、调优实战</h4><ul>
+<li><a href="https://www.jianshu.com/p/fa1bd3557a16" target="_blank" rel="noopener"><strong>JVM参数配置及优化</strong></a></li>
+</ul>
+
       
     </div>
     
@@ -385,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/20/LinkedList/" rel="next" title="LinkedList">
-                <i class="fa fa-chevron-left"></i> LinkedList
+              <a href="/2020/05/29/%E5%8F%8D%E5%B0%84%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E7%94%A8%E6%B3%95/" rel="next" title="反射的概念、用法">
+                <i class="fa fa-chevron-left"></i> 反射的概念、用法
               </a>
             
           </div>
@@ -395,8 +497,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/22/%E5%BA%94%E7%94%A8%E5%B1%82/" rel="prev" title="应用层">
-                应用层 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/29/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" rel="prev" title="JAVA多线程-线程间通信">
+                JAVA多线程-线程间通信 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -449,8 +551,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -505,6 +616,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM调优"><span class="nav-number">1.</span> <span class="nav-text">JVM调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、JVM参数配置"><span class="nav-number">1.1.</span> <span class="nav-text">一、JVM参数配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、堆设置"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、堆设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、栈设置"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、栈设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、收集器设置"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、收集器设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、垃圾回收统计信息"><span class="nav-number">1.1.4.</span> <span class="nav-text">4、垃圾回收统计信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、调优总结"><span class="nav-number">1.1.5.</span> <span class="nav-text">5、调优总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、调优实战"><span class="nav-number">1.1.6.</span> <span class="nav-text">6、调优实战</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
